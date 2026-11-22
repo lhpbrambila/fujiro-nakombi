@@ -1,0 +1,3711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurogane: Crônicas do Shogunato</title>
+<style>
+:root {
+  --bg-deep: #0e0e11;
+  --bg-panel: #16161b;
+  --bg-card: #1e1e25;
+  --bg-hover: #272730;
+  --border-subtle: #2e2e38;
+  --border-gold: #6e5b26;
+  --text-main: #e6dfd3;
+  --text-muted: #9a9284;
+  --parchment: #d6c8b0;
+  --crimson: #9e2a2b;
+  --crimson-hover: #b83335;
+  --gold: #d4af37;
+  --gold-dim: #9c7e22;
+  --jade: #2e7d63;
+  --jade-bright: #3ea382;
+  --danger: #c0392b;
+  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 0%, #1c1a1e 0%, #0e0e11 70%);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-dim);
+}
+
+.svg-icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.svg-icon-lg {
+  width: 28px;
+  height: 28px;
+}
+
+header {
+  background-color: var(--bg-panel);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-crest {
+  width: 38px;
+  height: 38px;
+  background: var(--crimson);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  box-shadow: 0 0 12px rgba(158, 42, 43, 0.5);
+}
+
+.brand-title h1 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.brand-title span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.resource-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.res-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 11px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+}
+
+.res-pill .res-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.res-pill .res-delta {
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.delta-pos { color: var(--jade-bright); }
+.delta-neg { color: var(--danger); }
+
+.turn-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-gold);
+}
+
+.turn-counter {
+  font-family: var(--font-serif);
+  font-weight: bold;
+  color: var(--gold);
+  padding-right: 8px;
+  border-right: 1px solid var(--border-subtle);
+  font-size: 0.9rem;
+}
+
+button {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  padding: 7px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+button:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--gold-dim);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--crimson);
+  border-color: var(--crimson-hover);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--crimson-hover);
+  border-color: var(--gold);
+}
+
+.btn-gold {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn-gold:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.28);
+}
+
+.btn-jade {
+  background: rgba(46, 125, 99, 0.2);
+  border-color: var(--jade);
+  color: var(--jade-bright);
+}
+
+.btn-jade:hover:not(:disabled) {
+  background: rgba(46, 125, 99, 0.35);
+}
+
+.btn-sm {
+  padding: 4px 9px;
+  font-size: 0.78rem;
+}
+
+.auto-progress-wrap {
+  width: 100%;
+  height: 3px;
+  background: var(--bg-deep);
+  position: relative;
+}
+
+.auto-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width 0.2s linear;
+}
+
+.app-layout {
+  display: flex;
+  flex: 1;
+  max-width: 1480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+nav.sidebar {
+  width: 240px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-subtle);
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 10px;
+}
+
+.nav-btn {
+  width: 100%;
+  justify-content: flex-start;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  border-radius: 4px;
+  position: relative;
+}
+
+.nav-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+
+.nav-btn.active {
+  background: rgba(158, 42, 43, 0.22);
+  border-color: var(--crimson);
+  color: var(--gold);
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--crimson);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.sidebar-footer {
+  padding: 14px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+main.content-area {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.view-section {
+  display: none;
+  animation: fadeIn 0.2s ease;
+}
+
+.view-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.section-header h2 {
+  font-family: var(--font-serif);
+  color: var(--gold);
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 18px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 5px;
+  padding: 16px;
+  position: relative;
+}
+
+.card-gold {
+  border-color: var(--border-gold);
+}
+
+.card-crimson {
+  border-color: var(--crimson);
+}
+
+.card-jade {
+  border-color: var(--jade);
+}
+
+.card-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--parchment);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 0.88rem;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tag-gold { background: rgba(212, 175, 55, 0.18); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4); }
+.tag-crimson { background: rgba(158, 42, 43, 0.25); color: #f28b82; border: 1px solid var(--crimson); }
+.tag-jade { background: rgba(46, 125, 99, 0.25); color: var(--jade-bright); border: 1px solid var(--jade); }
+.tag-neutral { background: rgba(255, 255, 255, 0.08); color: var(--text-muted); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+th {
+  background: var(--bg-panel);
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+th:hover {
+  background: var(--bg-hover);
+}
+
+tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+tr.player-row td {
+  background: rgba(212, 175, 55, 0.08);
+  border-top: 1px solid var(--border-gold);
+  border-bottom: 1px solid var(--border-gold);
+}
+
+input[type="text"], input[type="number"], select, textarea {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 7px 10px;
+  border-radius: 3px;
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--jade);
+  transition: width 0.3s ease;
+}
+
+.doctrine-node {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.doctrine-node.unlocked {
+  border-color: var(--jade);
+  background: rgba(46, 125, 99, 0.08);
+}
+
+.doctrine-node.researching {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.event-banner {
+  background: linear-gradient(90deg, rgba(158, 42, 43, 0.18), rgba(212, 175, 55, 0.14));
+  border: 1px solid var(--border-gold);
+  border-radius: 5px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 8, 0.86);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  max-width: 820px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.85);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-header h3 {
+  font-family: var(--font-serif);
+  color: var(--gold);
+  font-size: 1.3rem;
+}
+
+.origin-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  padding: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.origin-card:hover {
+  border-color: var(--gold-dim);
+}
+
+.origin-card.selected {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1200;
+  max-width: 360px;
+}
+
+.toast {
+  background: var(--bg-panel);
+  border-left: 4px solid var(--gold);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 14px;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+  font-size: 0.85rem;
+  animation: slideIn 0.25s ease;
+}
+
+.toast.danger { border-left-color: var(--crimson); }
+.toast.success { border-left-color: var(--jade); }
+
+@keyframes slideIn {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.log-entry {
+  padding: 12px;
+  border-left: 3px solid var(--border-subtle);
+  background: var(--bg-card);
+  margin-bottom: 10px;
+  border-radius: 0 4px 4px 0;
+}
+
+.log-entry.combat { border-left-color: var(--crimson); }
+.log-entry.spy { border-left-color: #8e44ad; }
+.log-entry.event { border-left-color: var(--gold); }
+.log-entry.diplo { border-left-color: var(--jade); }
+
+.battle-phase {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  nav.sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 8px;
+  }
+  .nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    width: auto;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .sidebar-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+</style>
+</head>
+<body>
+
+<svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-mon" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 3v18M3 12h18M6.5 6.5l11 11M17.5 6.5l-11 11"/>
+    <circle cx="12" cy="12" r="3" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-gold" viewBox="0 0 24 24">
+    <ellipse cx="12" cy="12" rx="8" ry="8"/>
+    <rect x="9.5" y="9.5" width="5" height="5"/>
+  </symbol>
+  <symbol id="icon-rice" viewBox="0 0 24 24">
+    <path d="M12 21V9"/>
+    <path d="M12 13c-3 0-5-2-5-5 3 0 5 2 5 5z"/>
+    <path d="M12 10c3 0 5-2 5-5-3 0-5 2-5 5z"/>
+    <path d="M12 17c-3 0-5-2-5-5 3 0 5 2 5 5z"/>
+    <path d="M12 15c3 0 5-2 5-5-3 0-5 2-5 5z"/>
+  </symbol>
+  <symbol id="icon-land" viewBox="0 0 24 24">
+    <path d="M3 18l5-8 4 5 4-7 5 10H3z"/>
+    <circle cx="17" cy="5" r="2"/>
+  </symbol>
+  <symbol id="icon-pop" viewBox="0 0 24 24">
+    <path d="M4 15l8-7 8 7"/>
+    <path d="M7 15v5h10v-5"/>
+    <circle cx="12" cy="5" r="2"/>
+  </symbol>
+  <symbol id="icon-katana" viewBox="0 0 24 24">
+    <path d="M19 3L6 16"/>
+    <path d="M4 14l4 4"/>
+    <path d="M3 21l3-3"/>
+    <path d="M15 3h4v4"/>
+  </symbol>
+  <symbol id="icon-castle" viewBox="0 0 24 24">
+    <path d="M4 21h16"/>
+    <path d="M6 21l2-8h8l2 8"/>
+    <path d="M5 13h14l-2-4H7l-2 4z"/>
+    <path d="M8 9l4-5 4 5"/>
+    <path d="M10 21v-4h4v4"/>
+  </symbol>
+  <symbol id="icon-ninja" viewBox="0 0 24 24">
+    <path d="M12 3a7 7 0 0 0-7 7v4l7 7 7-7v-4a7 7 0 0 0-7-7z"/>
+    <path d="M6 10h12v3H6z"/>
+    <circle cx="9.5" cy="11.5" r="0.8" fill="currentColor"/>
+    <circle cx="14.5" cy="11.5" r="0.8" fill="currentColor"/>
+  </symbol>
+  <symbol id="icon-scroll" viewBox="0 0 24 24">
+    <path d="M7 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7"/>
+    <path d="M7 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+    <path d="M11 8h6M11 12h6M11 16h4"/>
+  </symbol>
+  <symbol id="icon-hourglass" viewBox="0 0 24 24">
+    <path d="M6 3h12M6 21h12"/>
+    <path d="M7 3c0 5 5 6 5 9s-5 4-5 9"/>
+    <path d="M17 3c0 5-5 6-5 9s5 4 5 9"/>
+  </symbol>
+  <symbol id="icon-clan" viewBox="0 0 24 24">
+    <path d="M5 3v18"/>
+    <path d="M5 4h12l-2 4 2 4H5"/>
+  </symbol>
+  <symbol id="icon-shield" viewBox="0 0 24 24">
+    <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/>
+  </symbol>
+  <symbol id="icon-trophy" viewBox="0 0 24 24">
+    <path d="M8 21h8M12 17v4"/>
+    <path d="M7 4h10v6a5 5 0 0 1-10 0V4z"/>
+    <path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/>
+  </symbol>
+  <symbol id="icon-doctrine" viewBox="0 0 24 24">
+    <path d="M12 2L4 7v6c0 5 3.4 8.2 8 9 4.6-.8 8-4 8-9V7l-8-5z"/>
+    <path d="M12 7v10M8 11h8"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="brand">
+    <div class="brand-crest">
+      <svg class="svg-icon svg-icon-lg"><use href="#icon-mon"/></svg>
+    </div>
+    <div class="brand-title">
+      <h1 id="hdr-fief-name">Kurogane</h1>
+      <span id="hdr-fief-sub">Era I • Origem</span>
+    </div>
+  </div>
+
+  <div class="resource-bar">
+    <div class="res-pill" title="Ouro (Ryo)">
+      <svg class="svg-icon" style="color:var(--gold)"><use href="#icon-gold"/></svg>
+      <div>
+        <span class="res-val" id="res-gold">0</span>
+        <span class="res-delta" id="delta-gold">+0</span>
+      </div>
+    </div>
+    <div class="res-pill" title="Provisões (Arroz)">
+      <svg class="svg-icon" style="color:var(--jade-bright)"><use href="#icon-rice"/></svg>
+      <div>
+        <span class="res-val" id="res-rice">0</span>
+        <span class="res-delta" id="delta-rice">+0</span>
+      </div>
+    </div>
+    <div class="res-pill" title="Terras (Hectares Ocupados / Totais)">
+      <svg class="svg-icon" style="color:var(--parchment)"><use href="#icon-land"/></svg>
+      <div>
+        <span class="res-val" id="res-land">0 / 0</span>
+        <span class="res-delta" style="color:var(--text-muted)">ha</span>
+      </div>
+    </div>
+    <div class="res-pill" title="População / Capacidade">
+      <svg class="svg-icon" style="color:#7fb3d5"><use href="#icon-pop"/></svg>
+      <div>
+        <span class="res-val" id="res-pop">0 / 0</span>
+        <span class="res-delta" id="res-morale">Moral 100%</span>
+      </div>
+    </div>
+    <div class="res-pill" title="Poder Total Estimado">
+      <svg class="svg-icon" style="color:var(--crimson-hover)"><use href="#icon-katana"/></svg>
+      <div>
+        <span class="res-val" id="res-power">0</span>
+        <span class="res-delta" style="color:var(--gold)" id="res-honor">Honra 100</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="turn-controls">
+    <svg class="svg-icon" style="color:var(--gold)"><use href="#icon-hourglass"/></svg>
+    <span class="turn-counter" id="hdr-turn">Turno 1 / 120</span>
+    <button class="btn-primary btn-sm" id="btn-next-1" onclick="Game.advanceTurns(1)">+1 Turno</button>
+    <button class="btn-gold btn-sm" id="btn-next-5" onclick="Game.advanceTurns(5)">+5 Turnos</button>
+    <button class="btn-sm" id="btn-auto-toggle" onclick="Game.toggleAuto()">Auto: OFF</button>
+  </div>
+</header>
+<div class="auto-progress-wrap">
+  <div class="auto-progress-bar" id="auto-progress-bar"></div>
+</div>
+
+<div class="app-layout">
+  <nav class="sidebar">
+    <div class="nav-links">
+      <button class="nav-btn active" data-tab="overview" onclick="UI.switchTab('overview')">
+        <svg class="svg-icon"><use href="#icon-mon"/></svg> Visão Geral
+      </button>
+      <button class="nav-btn" data-tab="buildings" onclick="UI.switchTab('buildings')">
+        <svg class="svg-icon"><use href="#icon-castle"/></svg> Construções & Terras
+      </button>
+      <button class="nav-btn" data-tab="military" onclick="UI.switchTab('military')">
+        <svg class="svg-icon"><use href="#icon-katana"/></svg> Exército & Heróis
+      </button>
+      <button class="nav-btn" data-tab="doctrines" onclick="UI.switchTab('doctrines')">
+        <svg class="svg-icon"><use href="#icon-doctrine"/></svg> Doutrinas (Pesquisa)
+      </button>
+      <button class="nav-btn" data-tab="warroom" onclick="UI.switchTab('warroom')">
+        <svg class="svg-icon"><use href="#icon-shield"/></svg> Sala de Guerra
+      </button>
+      <button class="nav-btn" data-tab="ninja" onclick="UI.switchTab('ninja')">
+        <svg class="svg-icon"><use href="#icon-ninja"/></svg> Guilda Ninja
+      </button>
+      <button class="nav-btn" data-tab="clan" onclick="UI.switchTab('clan')">
+        <svg class="svg-icon"><use href="#icon-clan"/></svg> Clã & Diplomacia
+      </button>
+      <button class="nav-btn" data-tab="logs" onclick="UI.switchTab('logs')">
+        <svg class="svg-icon"><use href="#icon-scroll"/></svg> Pergaminhos
+        <span class="nav-badge" id="log-badge" style="display:none;">0</span>
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn-sm" onclick="UI.openSaveModal()">
+        <svg class="svg-icon"><use href="#icon-scroll"/></svg> Exportar / Importar
+      </button>
+      <button class="btn-sm" style="color:var(--danger)" onclick="UI.openNewEraModal(true)">
+        <svg class="svg-icon"><use href="#icon-hourglass"/></svg> Reiniciar Era
+      </button>
+    </div>
+  </nav>
+
+  <main class="content-area">
+    <section id="tab-overview" class="view-section active">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-mon"/></svg> Conselho do Daimyo</h2>
+          <p>Administração interna, eventos da Era, balanço econômico e crônicas recentes.</p>
+        </div>
+        <div id="overview-era-tag"></div>
+      </div>
+
+      <div id="overview-active-events"></div>
+      <div id="overview-choice-event"></div>
+      <div id="overview-alerts" style="margin-bottom:18px;"></div>
+
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div class="card card-gold">
+          <div class="card-title">
+            <span>Balanço Econômico (Por Turno)</span>
+            <svg class="svg-icon" style="color:var(--gold)"><use href="#icon-gold"/></svg>
+          </div>
+          <div id="ov-economy-stats"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Prontidão Militar & Defesa</span>
+            <svg class="svg-icon" style="color:var(--crimson-hover)"><use href="#icon-shield"/></svg>
+          </div>
+          <div id="ov-military-stats"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Identidade & Legado de Prestígio</span>
+            <svg class="svg-icon" style="color:var(--jade-bright)"><use href="#icon-trophy"/></svg>
+          </div>
+          <div id="ov-identity-stats"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>Últimos Acontecimentos no Feudo</span>
+            <button class="btn-sm" onclick="UI.switchTab('logs')">Ver Todos</button>
+          </div>
+          <div id="ov-recent-logs"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Top 5 Feudos da Era (Poder)</span>
+            <button class="btn-sm" onclick="UI.switchTab('warroom')">Mapa Completo</button>
+          </div>
+          <div id="ov-top-fiefs"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-buildings" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-castle"/></svg> Construções & Expansão Territorial</h2>
+          <p>Gerencie a infraestrutura do feudo e envie batedores para reivindicar novas terras.</p>
+        </div>
+        <div class="input-group">
+          <label style="font-size:0.85rem;color:var(--text-muted)">Quantidade:</label>
+          <select id="build-qty" onchange="UI.renderBuildings()">
+            <option value="1">1x</option>
+            <option value="5">5x</option>
+            <option value="10">10x</option>
+            <option value="25">25x</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card card-gold" style="margin-bottom:20px;">
+        <div class="card-title">
+          <span>Exploração Territorial & Fortificação</span>
+          <span class="tag tag-gold" id="land-free-tag">0 ha livres</span>
+        </div>
+        <div class="grid-2" style="align-items:center;">
+          <div>
+            <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:10px;">
+              Cada estrutura ocupa <strong>1 hectare</strong>. Expanda suas fronteiras através de expedições de desbravamento ou conquiste terras de feudos rivais em batalha.
+            </p>
+            <div class="progress-bar-bg" style="margin-bottom:6px;">
+              <div class="progress-bar-fill" id="land-usage-bar" style="width:50%"></div>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-muted)" id="land-usage-text"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;">
+            <button class="btn-jade" onclick="Game.exploreLand(5)">
+              <svg class="svg-icon"><use href="#icon-land"/></svg>
+              Explorar +5 ha (<span id="explore-cost-5">0</span> Ouro)
+            </button>
+            <button class="btn-gold" onclick="Game.exploreLand(20)">
+              <svg class="svg-icon"><use href="#icon-land"/></svg>
+              Expedição +20 ha (<span id="explore-cost-20">0</span> Ouro)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3" id="buildings-grid"></div>
+    </section>
+
+    <section id="tab-military" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-katana"/></svg> Exército & Generais</h2>
+          <p>Recrute tropas, defina a doutrina tática e comande seus heróis lendários.</p>
+        </div>
+        <div class="input-group">
+          <label style="font-size:0.85rem;color:var(--text-muted)">Doutrina:</label>
+          <select id="army-stance" onchange="Game.setStance(this.value)">
+            <option value="balanced">Equilibrada (Padrão)</option>
+            <option value="offensive">Ofensiva (+15% Ataque, -10% Defesa)</option>
+            <option value="defensive">Retranca (+20% Defesa, -15% Ataque)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-title">
+          <span>Capacidade Militar & Manutenção</span>
+          <span class="tag tag-crimson" id="army-cap-tag">0 / 0 Tropas</span>
+        </div>
+        <div class="grid-4" id="army-summary-stats"></div>
+      </div>
+
+      <h3 style="font-family:var(--font-serif);color:var(--parchment);margin-bottom:12px;">Regimentos Militares</h3>
+      <div class="grid-4" id="units-grid" style="margin-bottom:24px;"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="font-family:var(--font-serif);color:var(--parchment);">Generais & Heróis Ativos (Máx. 3)</h3>
+        <button class="btn-gold" id="btn-recruit-hero" onclick="UI.openHeroRecruitModal()">
+          <svg class="svg-icon"><use href="#icon-mon"/></svg> Convocar General
+        </button>
+      </div>
+      <div class="grid-3" id="heroes-grid"></div>
+    </section>
+
+    <section id="tab-doctrines" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-doctrine"/></svg> Doutrinas & Pesquisas da Era</h2>
+          <p>Invista Ouro e Turnos de Pesquisa para moldar a especialização estratégica do seu feudo.</p>
+        </div>
+        <div id="active-research-status"></div>
+      </div>
+
+      <div class="card card-gold" style="margin-bottom:20px;" id="research-progress-card"></div>
+      <div class="grid-3" id="doctrines-tracks-grid"></div>
+    </section>
+
+    <section id="tab-warroom" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-shield"/></svg> Sala de Guerra & Mapa dos Feudos</h2>
+          <p>16 Daimyos disputam a supremacia nesta Era. Analise alvos, envie espiões ou marche para a guerra.</p>
+        </div>
+        <div class="input-group">
+          <select id="war-filter-clan" onchange="UI.renderWarRoom()">
+            <option value="all">Todos os Clãs</option>
+          </select>
+          <select id="war-sort" onchange="UI.renderWarRoom()">
+            <option value="power">Ordenar: Poder</option>
+            <option value="land">Ordenar: Terras</option>
+            <option value="honor">Ordenar: Honra</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card" style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Feudo / Daimyo</th>
+              <th>Clã</th>
+              <th>Origem</th>
+              <th>Terras</th>
+              <th>Poder Est.</th>
+              <th>Relação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="warroom-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-ninja" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-ninja"/></svg> Guilda das Sombras (Shinobi)</h2>
+          <p>Operações clandestinas, sabotagem de suprimentos e contraespionagem.</p>
+        </div>
+        <div class="tag tag-gold" id="ninja-count-tag">0 Shinobi Disponíveis</div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="card card-gold">
+          <div class="card-title"><span>Recrutamento & Postura Shinobi</span></div>
+          <div id="ninja-recruit-panel"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Executar Operação Secreta</span></div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div>
+              <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:4px;">Feudo Alvo:</label>
+              <select id="spy-target-select" style="width:100%" onchange="UI.updateSpyPreview()"></select>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:4px;">Tipo de Missão:</label>
+              <select id="spy-mission-select" style="width:100%" onchange="UI.updateSpyPreview()">
+                <option value="recon">Reconhecimento (Revela tropas, ouro e muralhas)</option>
+                <option value="sabotage">Sabotagem de Celeiros (Destrói 25-40% do arroz)</option>
+                <option value="steal">Roubo de Tesouro (Desvia 15-30% do ouro)</option>
+                <option value="revolt">Incitar Revolta (Reduz moral e produção por 3 turnos)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:4px;">Agentes Enviados:</label>
+              <input type="number" id="spy-agents-input" min="1" max="50" value="3" style="width:100%" oninput="UI.updateSpyPreview()">
+            </div>
+            <div id="spy-preview-box" style="background:var(--bg-deep);padding:10px;border-radius:4px;font-size:0.85rem;"></div>
+            <button class="btn-primary" onclick="Game.executeSpyMission()">
+              <svg class="svg-icon"><use href="#icon-ninja"/></svg> Despachar Agentes nas Sombras
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Dossiês de Inteligência Coletados</span></div>
+        <div id="intel-reports-list" class="grid-3"></div>
+      </div>
+    </section>
+
+    <section id="tab-clan" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-clan"/></svg> Clã & Alianças Políticas</h2>
+          <p>Coalizões feudais, tesouro compartilhado, pedidos de reforço e tratados de guerra.</p>
+        </div>
+      </div>
+
+      <div id="clan-main-content"></div>
+    </section>
+
+    <section id="tab-logs" class="view-section">
+      <div class="section-header">
+        <div>
+          <h2><svg class="svg-icon"><use href="#icon-scroll"/></svg> Pergaminhos do Arquivo</h2>
+          <p>Registro cronológico de batalhas, espionagem, diplomacia e decretos.</p>
+        </div>
+        <div class="input-group">
+          <select id="log-filter" onchange="UI.renderLogs()">
+            <option value="all">Todos os Registros</option>
+            <option value="combat">Batalhas</option>
+            <option value="spy">Espionagem</option>
+            <option value="diplo">Diplomacia & Clã</option>
+            <option value="event">Eventos & Economia</option>
+          </select>
+          <button class="btn-sm" onclick="Game.clearLogs()">Limpar Arquivo</button>
+        </div>
+      </div>
+
+      <div id="logs-container"></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="main-modal">
+  <div class="modal-box" id="modal-content"></div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+const ORIGINS = {
+  shoukei: {
+    id: 'shoukei',
+    name: 'Shoukei (Comércio)',
+    short: 'Comércio',
+    desc: 'Mercadores mestres das rotas marítimas e casas bancárias.',
+    bonuses: ['+30% produção de Ouro', '+30% eficiência dos Camponeses', '-15% custo de construções econômicas'],
+    goldMult: 1.30,
+    riceMult: 1.05,
+    econCostMult: 0.85,
+    atkMult: 1.0,
+    defMult: 1.0,
+    upkeepMult: 1.0,
+    spyMult: 1.0,
+    rangeMult: 1.0
+  },
+  koumu: {
+    id: 'koumu',
+    name: 'Koumu (Tecnologia & Defesa)',
+    short: 'Engenharia',
+    desc: 'Arquitetos de fortalezas inexpugnáveis e engenhos de cerco.',
+    bonuses: ['+30% eficácia em Muralhas e Heróis Defensivos', 'Fortificações 20% mais baratas', '+15% capacidade de guarnição'],
+    goldMult: 1.0,
+    riceMult: 1.0,
+    econCostMult: 1.0,
+    atkMult: 1.0,
+    defMult: 1.30,
+    upkeepMult: 1.0,
+    spyMult: 1.0,
+    rangeMult: 1.0
+  },
+  shusen: {
+    id: 'shusen',
+    name: 'Shusen (Guerra)',
+    short: 'Guerra',
+    desc: 'Clãs guerreiros forjados no aço e na disciplina implacável do Bushido.',
+    bonuses: ['+30% ataque de Tropas e Heróis Ofensivos', '-20% manutenção militar', '+15% saque em vitórias'],
+    goldMult: 1.0,
+    riceMult: 1.0,
+    econCostMult: 1.0,
+    atkMult: 1.30,
+    defMult: 1.0,
+    upkeepMult: 0.80,
+    spyMult: 1.0,
+    rangeMult: 1.0
+  },
+  tokoyami: {
+    id: 'tokoyami',
+    name: 'Tokoyami (Sombras)',
+    short: 'Sombras',
+    desc: 'Mestres das artes ocultas, venenos e infiltração política.',
+    bonuses: ['+40% eficácia em missões Ninja', '-35% chance de captura de espiões', '+25% defesa contra espionagem'],
+    goldMult: 1.0,
+    riceMult: 1.0,
+    econCostMult: 1.0,
+    atkMult: 1.0,
+    defMult: 1.0,
+    upkeepMult: 1.0,
+    spyMult: 1.40,
+    rangeMult: 1.0
+  },
+  kougen: {
+    id: 'kougen',
+    name: 'Kougen (Natureza)',
+    short: 'Harmonia',
+    desc: 'Guardiões das montanhas e vales profundos com mobilidade irrestrita.',
+    bonuses: ['+10% produção geral (Ouro e Arroz)', '+10% defesa territorial', 'Alcance Estendido (ataca qualquer alvo sem penalidade de honra)'],
+    goldMult: 1.10,
+    riceMult: 1.10,
+    econCostMult: 1.0,
+    atkMult: 1.0,
+    defMult: 1.10,
+    upkeepMult: 1.0,
+    spyMult: 1.0,
+    rangeMult: 2.5
+  }
+};
+
+const DOCTRINES = {
+  earth: {
+    id: 'earth',
+    name: 'Doutrina da Terra e do Grão',
+    category: 'Economia & Infraestrutura',
+    levels: [
+      { level: 1, name: 'Irrigação em Terraços', goldCost: 220, turns: 2, desc: '+15% de produção de Arroz por Campo de Arroz.' },
+      { level: 2, name: 'Cunhagem Padronizada', goldCost: 420, turns: 3, desc: 'Reduz em 15% o custo de Ouro em construções e recrutamento de tropas.' },
+      { level: 3, name: 'Celeiros Fortificados', goldCost: 700, turns: 4, desc: 'Protege 40% das provisões e ouro contra saques em derrotas e sabotagens.' }
+    ]
+  },
+  blade: {
+    id: 'blade',
+    name: 'Doutrina da Lâmina e da Honra',
+    category: 'Guerra & Comando',
+    levels: [
+      { level: 1, name: 'Formação Yari-Dori', goldCost: 240, turns: 2, desc: '+20% de defesa de infantaria contra Cavalaria.' },
+      { level: 2, name: 'Logística de Campanha', goldCost: 450, turns: 3, desc: 'Reduz em 25% o consumo de Arroz das tropas fora do feudo em marcha/ataque.' },
+      { level: 3, name: 'Espírito Bushido', goldCost: 740, turns: 4, desc: 'Aumenta em +20% o bônus de nível dos Heróis e reduz a perda de moral em derrotas.' }
+    ]
+  },
+  veil: {
+    id: 'veil',
+    name: 'Doutrina do Véu de Névoa',
+    category: 'Espionagem & Assimetria',
+    levels: [
+      { level: 1, name: 'Rotas Ocultas', goldCost: 230, turns: 2, desc: 'Reduz em 20% o risco de captura de Ninjas em missões.' },
+      { level: 2, name: 'Cifras e Disfarces', goldCost: 440, turns: 3, desc: 'Aumenta em +25% o efeito de Sabotagem de Celeiros, Roubo de Tesouro e Incitar Revolta.' },
+      { level: 3, name: 'Rede de Informantes', goldCost: 720, turns: 4, desc: 'Revela automaticamente tropas e recursos de feudos com poder até 25% superior ao seu.' }
+    ]
+  }
+};
+
+const GLOBAL_EVENT_TEMPLATES = [
+  {
+    id: 'harsh_winter',
+    name: 'Inverno Rigoroso',
+    duration: 5,
+    desc: 'Nevascas severas reduzem a produção de Arroz em 25% e elevam em +20% o consumo alimentar de todos os feudos.'
+  },
+  {
+    id: 'bountiful_harvest',
+    name: 'Época das Monções / Colheita Abundante',
+    duration: 5,
+    desc: 'Chuvas férteis e sol constante aumentam em +30% a produção de Arroz em todo o arquipélago.'
+  },
+  {
+    id: 'shogun_edict',
+    name: 'Édito do Xogum',
+    duration: 5,
+    desc: 'A corte imperial exige conduta exemplar: feudos honrados ganham +2 Honra/turno e ataques desonrosos sofrem penalidade dobrada.'
+  },
+  {
+    id: 'market_fever',
+    name: 'Febre de Mercado',
+    duration: 4,
+    desc: 'Rotas comerciais florescem e a geração de Ouro aumenta em +25% para todos os feudos.'
+  }
+];
+
+const BUILDINGS = {
+  riceField: {
+    id: 'riceField',
+    name: 'Campos de Arroz',
+    type: 'econ',
+    goldCost: 58,
+    desc: 'Produz +14 Provisões (Arroz) por turno. Requer 8 camponeses.',
+    workers: 8,
+    riceProd: 14
+  },
+  tradeHouse: {
+    id: 'tradeHouse',
+    name: 'Casas de Comércio',
+    type: 'econ',
+    goldCost: 82,
+    desc: 'Gera +18 Ouro (Ryo) por turno. Requer 10 camponeses.',
+    workers: 10,
+    goldProd: 18
+  },
+  village: {
+    id: 'village',
+    name: 'Vilas & Habitações',
+    type: 'econ',
+    goldCost: 72,
+    desc: 'Aumenta o limite populacional em +35 camponeses e acelera crescimento.',
+    workers: 0,
+    popCap: 35
+  },
+  barracks: {
+    id: 'barracks',
+    name: 'Quartéis Militares',
+    type: 'mil',
+    goldCost: 105,
+    desc: 'Aumenta a capacidade máxima do exército em +45 soldados.',
+    workers: 4,
+    armyCap: 45
+  },
+  dojo: {
+    id: 'dojo',
+    name: 'Dojo & Templo',
+    type: 'mil',
+    goldCost: 150,
+    desc: 'Permite recrutar Generais e concede +5 XP passivo por turno aos heróis.',
+    workers: 5,
+    heroXp: 5
+  },
+  shadowGuild: {
+    id: 'shadowGuild',
+    name: 'Guilda das Sombras',
+    type: 'spy',
+    goldCost: 135,
+    desc: 'Aumenta o limite de Shinobi em +8 e reforça a contraespionagem.',
+    workers: 4,
+    ninjaCap: 8
+  },
+  walls: {
+    id: 'walls',
+    name: 'Muralhas & Torres',
+    type: 'def',
+    goldCost: 125,
+    desc: 'Concede +4% de bônus multiplicativo na defesa base do feudo.',
+    workers: 3,
+    defBonus: 0.04
+  }
+};
+
+const UNITS = {
+  ashigaru: {
+    id: 'ashigaru',
+    name: 'Ashigaru',
+    role: 'Infantaria Leve',
+    goldCost: 20,
+    riceCost: 9,
+    goldUpkeep: 1.0,
+    riceUpkeep: 0.9,
+    atk: 6,
+    def: 6,
+    phase: 'infantry',
+    loot: 4,
+    desc: 'Camponeses armados com lanças Yari. Eficientes em volume e baixo custo.'
+  },
+  yumi: {
+    id: 'yumi',
+    name: 'Arqueiros Yumi',
+    role: 'Atiradores',
+    goldCost: 38,
+    riceCost: 14,
+    goldUpkeep: 1.8,
+    riceUpkeep: 1.1,
+    atk: 9,
+    def: 11,
+    phase: 'archery',
+    loot: 3,
+    desc: 'Disparam na fase inicial e recebem bônus massivo defendendo muralhas.'
+  },
+  samurai: {
+    id: 'samurai',
+    name: 'Samurai',
+    role: 'Elite de Combate',
+    goldCost: 80,
+    riceCost: 28,
+    goldUpkeep: 4.0,
+    riceUpkeep: 2.0,
+    atk: 20,
+    def: 18,
+    phase: 'infantry',
+    loot: 8,
+    desc: 'Guerreiros nobres de armadura completa. Devastadores no choque corpo a corpo.'
+  },
+  cavalry: {
+    id: 'cavalry',
+    name: 'Cavalaria Takeda',
+    role: 'Choque & Saque',
+    goldCost: 105,
+    riceCost: 36,
+    goldUpkeep: 5.0,
+    riceUpkeep: 2.6,
+    atk: 26,
+    def: 12,
+    phase: 'cavalry',
+    loot: 18,
+    desc: 'Rompe linhas inimigas na carga inicial e saqueia grandes quantias de recursos.'
+  }
+};
+
+const HERO_POOL = [
+  { name: 'Kenshin Takeda', spec: 'Ataque', atkBonus: 0.14, defBonus: 0.03, stratBonus: 0.04, relic: 'Katana Muramasa' },
+  { name: 'Haruka Hojo', spec: 'Defesa', atkBonus: 0.03, defBonus: 0.16, stratBonus: 0.05, relic: 'Leque de Ferro Tessen' },
+  { name: 'Nobunaga Kuroda', spec: 'Estratégia', atkBonus: 0.08, defBonus: 0.08, stratBonus: 0.12, relic: 'Tratado da Guerra' },
+  { name: 'Masamune Date', spec: 'Ataque', atkBonus: 0.15, defBonus: 0.04, stratBonus: 0.03, relic: 'Elmo Lua Crescente' },
+  { name: 'Tomoe Gozen', spec: 'Ataque', atkBonus: 0.13, defBonus: 0.06, stratBonus: 0.04, relic: 'Naginata Ancestral' },
+  { name: 'Ieyasu Tokugawa', spec: 'Defesa', atkBonus: 0.04, defBonus: 0.15, stratBonus: 0.06, relic: 'Armadura Dourada' },
+  { name: 'Hanzo Hattori', spec: 'Estratégia', atkBonus: 0.07, defBonus: 0.05, stratBonus: 0.15, relic: 'Pergaminho das Sombras' },
+  { name: 'Yukimura Sanada', spec: 'Ataque', atkBonus: 0.16, defBonus: 0.05, stratBonus: 0.02, relic: 'Lança Cruzada Jumonji' },
+  { name: 'Ginchiyo Tachibana', spec: 'Defesa', atkBonus: 0.06, defBonus: 0.14, stratBonus: 0.05, relic: 'Espada Chidori' }
+];
+
+const RELICS = [
+  { name: 'Selo Imperial de Jade', atk: 0.05, def: 0.05, desc: '+5% Ataque e Defesa do Exército' },
+  { name: 'Tambor Taiko de Guerra', atk: 0.08, def: 0.02, desc: '+8% Ataque e +2% Defesa' },
+  { name: 'Estandarte Furinkazan', atk: 0.06, def: 0.06, desc: '+6% Ataque e Defesa Geral' },
+  { name: 'Armadura O-Yoroi Ancestral', atk: 0.02, def: 0.09, desc: '+9% Defesa de Muralhas e Tropas' },
+  { name: 'Lâmina Masamune', atk: 0.10, def: 0.00, desc: '+10% Poder Ofensivo' }
+];
+
+const AI_FIEF_TEMPLATES = [
+  { name: 'Castelo Himeji', daimyo: 'Akira Ikeda' },
+  { name: 'Fortaleza Odawara', daimyo: 'Ujiyasu Hojo' },
+  { name: 'Vale de Kai', daimyo: 'Shingen Takeda' },
+  { name: 'Província de Echigo', daimyo: 'Kagetora Uesugi' },
+  { name: 'Monte Azuchi', daimyo: 'Katsuie Shibata' },
+  { name: 'Baía de Satsuma', daimyo: 'Yoshihiro Shimazu' },
+  { name: 'Planície de Owari', daimyo: 'Hideyoshi Hashiba' },
+  { name: 'Desfiladeiro Iga', daimyo: 'Sandayu Momochi' },
+  { name: 'Cidadela Sendai', daimyo: 'Terumune Date' },
+  { name: 'Ilha de Shikoku', daimyo: 'Motochika Chosokabe' },
+  { name: 'Castelo Kumamoto', daimyo: 'Kiyomasa Kato' },
+  { name: 'Santuário Kii', daimyo: 'Magoichi Saika' },
+  { name: 'Castelo Matsue', daimyo: 'Motonari Mori' },
+  { name: 'Passo Sekigahara', daimyo: 'Mitsunari Ishida' },
+  { name: 'Fortaleza Gifu', daimyo: 'Dosan Saito' }
+];
+
+const INITIAL_CLANS = [
+  { id: 'clan_red', name: 'Aliança Vermelha (Aka-Mon)', tag: 'AKA', bonusType: 'atk', bonusVal: 0.08, desc: '+8% Poder Ofensivo para membros', treasury: 1200 },
+  { id: 'clan_jade', name: 'Pacto de Jade (Midori)', tag: 'MDR', bonusType: 'econ', bonusVal: 0.10, desc: '+10% Produção de Ouro e Arroz', treasury: 1500 },
+  { id: 'clan_shadow', name: 'Ordem do Eclipse (Kage)', tag: 'KGE', bonusType: 'def', bonusVal: 0.08, desc: '+8% Defesa e Contraespionagem', treasury: 1100 }
+];
+
+const STORAGE_KEY = 'kurogane_shogunate_save_v1';
+
+const Game = {
+  state: null,
+  autoTimer: null,
+  autoSeconds: 0,
+  AUTO_INTERVAL: 10,
+
+  init() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        this.state = this.migrateState(parsed);
+        this.save();
+        UI.renderAll();
+        UI.toast('Crônicas restauradas e sincronizadas.', 'success');
+        return;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    this.state = this.createDefaultState('Feudo Kurogane', 'shusen', 120, 0, []);
+    UI.renderAll();
+    UI.openNewEraModal(false);
+  },
+
+  migrateState(raw) {
+    const base = this.createDefaultState(
+      raw?.player?.name || 'Feudo Kurogane',
+      raw?.player?.origin || 'shusen',
+      raw?.maxTurns || 120,
+      raw?.prestige || 0,
+      raw?.hallOfFame || [],
+      raw?.eraNumber || 1
+    );
+    const mergedPlayer = {
+      ...base.player,
+      ...(raw.player || {}),
+      buildings: { ...base.player.buildings, ...(raw.player?.buildings || {}) },
+      units: { ...base.player.units, ...(raw.player?.units || {}) },
+      doctrines: { ...base.player.doctrines, ...(raw.player?.doctrines || {}) },
+      heroes: Array.isArray(raw.player?.heroes) && raw.player.heroes.length > 0 ? raw.player.heroes : base.player.heroes,
+      relicInventory: Array.isArray(raw.player?.relicInventory) ? raw.player.relicInventory : []
+    };
+
+    const mergedAi = (Array.isArray(raw.aiFiefs) && raw.aiFiefs.length > 0 ? raw.aiFiefs : base.aiFiefs).map((ai, i) => ({
+      ...base.aiFiefs[i % base.aiFiefs.length],
+      ...ai,
+      buildings: { ...base.aiFiefs[i % base.aiFiefs.length].buildings, ...(ai.buildings || {}) },
+      units: { ...base.aiFiefs[i % base.aiFiefs.length].units, ...(ai.units || {}) },
+      doctrines: { earth: 0, blade: 0, veil: 0, ...(ai.doctrines || {}) }
+    }));
+
+    return {
+      ...base,
+      ...raw,
+      player: mergedPlayer,
+      aiFiefs: mergedAi,
+      activeResearch: raw.activeResearch || null,
+      globalEvents: Array.isArray(raw.globalEvents) ? raw.globalEvents : [],
+      pendingChoiceEvent: raw.pendingChoiceEvent || null,
+      aiAttackHistory: raw.aiAttackHistory || {}
+    };
+  },
+
+  createDefaultState(fiefName, originId, maxTurns, prestigePoints = 0, hallOfFame = [], eraNumber = 1) {
+    const originKeys = Object.keys(ORIGINS);
+    const clans = JSON.parse(JSON.stringify(INITIAL_CLANS));
+    const aiFiefs = AI_FIEF_TEMPLATES.map((tpl, idx) => {
+      const orig = originKeys[idx % originKeys.length];
+      const clan = clans[idx % clans.length];
+      const land = 45 + (idx % 4) * 5;
+      return {
+        id: 'ai_' + idx,
+        name: tpl.name,
+        daimyo: tpl.daimyo,
+        origin: orig,
+        clanId: clan.id,
+        gold: 550 + idx * 30,
+        rice: 500 + idx * 25,
+        land: land,
+        pop: 140 + idx * 5,
+        morale: 95,
+        honor: 100,
+        revoltTurns: 0,
+        econBoostTurns: 0,
+        doctrines: { earth: 0, blade: 0, veil: 0 },
+        buildings: {
+          riceField: 10,
+          tradeHouse: 9,
+          village: 6,
+          barracks: 4,
+          dojo: 1,
+          shadowGuild: 1,
+          walls: 3
+        },
+        units: {
+          ashigaru: 35 + idx * 2,
+          yumi: 15 + (idx % 5) * 2,
+          samurai: 6 + (idx % 4),
+          cavalry: 4 + (idx % 3)
+        },
+        ninjas: 4 + (idx % 4),
+        heroLevel: 1,
+        relation: 0,
+        intel: null
+      };
+    });
+
+    return {
+      eraNumber,
+      turn: 1,
+      maxTurns,
+      eraEnded: false,
+      prestige: prestigePoints,
+      hallOfFame,
+      player: {
+        name: fiefName || 'Feudo Kurogane',
+        origin: originId,
+        clanId: null,
+        gold: 850 + prestigePoints * 50,
+        rice: 800 + prestigePoints * 50,
+        land: 50 + Math.floor(prestigePoints / 2),
+        pop: 160,
+        morale: 100,
+        honor: 100,
+        stance: 'balanced',
+        revoltTurns: 0,
+        econBoostTurns: 0,
+        doctrines: { earth: 0, blade: 0, veil: 0 },
+        buildings: {
+          riceField: 11,
+          tradeHouse: 10,
+          village: 6,
+          barracks: 4,
+          dojo: 1,
+          shadowGuild: 1,
+          walls: 3
+        },
+        units: {
+          ashigaru: 40,
+          yumi: 15,
+          samurai: 8,
+          cavalry: 5
+        },
+        ninjas: 5,
+        heroes: [
+          {
+            id: 'h_init',
+            name: HERO_POOL[0].name,
+            spec: HERO_POOL[0].spec,
+            level: 1,
+            xp: 0,
+            atkBonus: HERO_POOL[0].atkBonus,
+            defBonus: HERO_POOL[0].defBonus,
+            stratBonus: HERO_POOL[0].stratBonus,
+            relic: null
+          }
+        ],
+        relicInventory: []
+      },
+      activeResearch: null,
+      globalEvents: [],
+      pendingChoiceEvent: null,
+      aiAttackHistory: {},
+      clans,
+      wars: [],
+      pacts: [],
+      aiFiefs,
+      logs: [
+        {
+          id: Date.now(),
+          turn: 1,
+          type: 'event',
+          title: `Início da Era ${eraNumber}`,
+          text: `O estandarte de ${fiefName} foi erguido sob a doutrina ${ORIGINS[originId].name}. Que os céus favoreçam sua lâmina.`
+        }
+      ],
+      unreadLogs: 0
+    };
+  },
+
+  save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+    } catch (e) {
+      console.error('Erro ao salvar:', e);
+    }
+  },
+
+  hasGlobalEvent(eventId) {
+    return (this.state?.globalEvents || []).some(ev => ev.id === eventId && ev.turnsLeft > 0);
+  },
+
+  getUsedLand(entity) {
+    return Object.values(entity.buildings).reduce((a, b) => a + b, 0);
+  },
+
+  getPopCap(entity) {
+    return 40 + entity.buildings.village * BUILDINGS.village.popCap;
+  },
+
+  getArmyCap(entity) {
+    const orig = ORIGINS[entity.origin];
+    const mult = orig.id === 'koumu' ? 1.15 : 1.0;
+    return Math.floor((30 + entity.buildings.barracks * BUILDINGS.barracks.armyCap) * mult);
+  },
+
+  getTotalUnits(entity) {
+    return Object.values(entity.units).reduce((a, b) => a + b, 0);
+  },
+
+  getNinjaCap(entity) {
+    return 3 + entity.buildings.shadowGuild * BUILDINGS.shadowGuild.ninjaCap;
+  },
+
+  getRequiredWorkers(entity) {
+    let req = 0;
+    for (const [k, count] of Object.entries(entity.buildings)) {
+      req += count * (BUILDINGS[k].workers || 0);
+    }
+    return req;
+  },
+
+  getClanBonus(clanId, type) {
+    if (!clanId) return 0;
+    const clan = this.state.clans.find(c => c.id === clanId);
+    if (!clan || clan.bonusType !== type) return 0;
+    return clan.bonusVal;
+  },
+
+  getDoctrineLevel(entity, track) {
+    return entity?.doctrines?.[track] || 0;
+  },
+
+  calcEconomy(entity, isPlayer = false) {
+    const orig = ORIGINS[entity.origin];
+    const reqWorkers = this.getRequiredWorkers(entity);
+    const workerEff = reqWorkers === 0 ? 1 : Math.min(1, entity.pop / reqWorkers);
+    const shoukeiWorkerBonus = orig.id === 'shoukei' ? 1.15 : 1.0;
+    const revoltMult = entity.revoltTurns > 0 ? 0.65 : 1.0;
+    const econBoostMult = entity.econBoostTurns > 0 ? 1.15 : 1.0;
+    const moraleMult = 0.6 + (entity.morale / 100) * 0.4;
+    const clanEconBonus = 1 + this.getClanBonus(entity.clanId, 'econ');
+    const prestigeMult = isPlayer ? (1 + this.state.prestige * 0.01) : 1.0;
+
+    const earthLv = this.getDoctrineLevel(entity, 'earth');
+    const terraceMult = earthLv >= 1 ? 1.15 : 1.0;
+
+    let globalGoldMult = 1.0;
+    let globalRiceMult = 1.0;
+    let globalFoodUpkeepMult = 1.0;
+
+    if (this.hasGlobalEvent('market_fever')) globalGoldMult *= 1.25;
+    if (this.hasGlobalEvent('bountiful_harvest')) globalRiceMult *= 1.30;
+    if (this.hasGlobalEvent('harsh_winter')) {
+      globalRiceMult *= 0.75;
+      globalFoodUpkeepMult *= 1.20;
+    }
+
+    const baseGold = entity.buildings.tradeHouse * BUILDINGS.tradeHouse.goldProd + Math.floor(entity.pop * 0.25);
+    const goldIncome = Math.floor(baseGold * workerEff * shoukeiWorkerBonus * orig.goldMult * moraleMult * revoltMult * econBoostMult * clanEconBonus * prestigeMult * globalGoldMult);
+
+    const baseRice = entity.buildings.riceField * BUILDINGS.riceField.riceProd * terraceMult;
+    const riceIncome = Math.floor(baseRice * workerEff * shoukeiWorkerBonus * orig.riceMult * moraleMult * revoltMult * econBoostMult * clanEconBonus * prestigeMult * globalRiceMult);
+
+    let goldUpkeep = 0;
+    let riceUpkeep = Math.ceil(entity.pop * 0.17 * globalFoodUpkeepMult);
+
+    for (const [uKey, count] of Object.entries(entity.units)) {
+      const u = UNITS[uKey];
+      goldUpkeep += count * u.goldUpkeep;
+      riceUpkeep += count * u.riceUpkeep * globalFoodUpkeepMult;
+    }
+
+    goldUpkeep = Math.floor(goldUpkeep * orig.upkeepMult);
+    riceUpkeep = Math.floor(riceUpkeep * orig.upkeepMult);
+
+    return {
+      goldIncome,
+      goldUpkeep,
+      goldNet: goldIncome - goldUpkeep,
+      riceIncome,
+      riceUpkeep,
+      riceNet: riceIncome - riceUpkeep,
+      workerEff: Math.round(workerEff * 100)
+    };
+  },
+
+  calcPower(entity, isPlayer = false) {
+    const orig = ORIGINS[entity.origin];
+    let rawAtk = 0;
+    let rawDef = 0;
+
+    for (const [uKey, count] of Object.entries(entity.units)) {
+      const u = UNITS[uKey];
+      rawAtk += count * u.atk;
+      rawDef += count * u.def;
+    }
+
+    const bladeLv = this.getDoctrineLevel(entity, 'blade');
+    const bushidoHeroMult = bladeLv >= 3 ? 1.20 : 1.0;
+
+    let heroAtk = 0;
+    let heroDef = 0;
+    if (isPlayer && entity.heroes) {
+      entity.heroes.forEach(h => {
+        const lvlScale = 1 + (h.level - 1) * 0.12 * bushidoHeroMult;
+        const specAtkMult = (h.spec === 'Ataque' && orig.id === 'shusen') ? 1.3 : 1.0;
+        const specDefMult = (h.spec === 'Defesa' && orig.id === 'koumu') ? 1.3 : 1.0;
+        heroAtk += h.atkBonus * lvlScale * specAtkMult;
+        heroDef += h.defBonus * lvlScale * specDefMult;
+        if (h.relic) {
+          heroAtk += h.relic.atk;
+          heroDef += h.relic.def;
+        }
+      });
+    } else {
+      const hLv = entity.heroLevel || 1;
+      heroAtk = hLv * 0.08 * (1 + bladeLv * 0.08);
+      heroDef = hLv * 0.08 * (1 + bladeLv * 0.08);
+    }
+
+    const wallMult = 1 + entity.buildings.walls * BUILDINGS.walls.defBonus * (orig.id === 'koumu' ? 1.3 : 1.0);
+    const moraleMult = 0.5 + (entity.morale / 100) * 0.5;
+    const clanAtk = 1 + this.getClanBonus(entity.clanId, 'atk');
+    const clanDef = 1 + this.getClanBonus(entity.clanId, 'def');
+
+    let stanceAtk = 1.0;
+    let stanceDef = 1.0;
+    if (isPlayer) {
+      if (entity.stance === 'offensive') { stanceAtk = 1.15; stanceDef = 0.90; }
+      if (entity.stance === 'defensive') { stanceAtk = 0.85; stanceDef = 1.20; }
+    }
+
+    const totalAtk = Math.floor(rawAtk * orig.atkMult * (1 + heroAtk) * moraleMult * clanAtk * stanceAtk);
+    const totalDef = Math.floor(rawDef * orig.defMult * (1 + heroDef) * wallMult * moraleMult * clanDef * stanceDef);
+    const powerScore = Math.floor((totalAtk + totalDef) * 0.6 + entity.land * 12 + entity.pop * 0.8);
+
+    return { totalAtk, totalDef, powerScore, wallMult };
+  },
+
+  addLog(type, title, text) {
+    this.state.logs.unshift({
+      id: Date.now() + Math.random(),
+      turn: this.state.turn,
+      type,
+      title,
+      text
+    });
+    if (this.state.logs.length > 140) {
+      this.state.logs.pop();
+    }
+    this.state.unreadLogs++;
+  },
+
+  advanceTurns(count) {
+    if (this.state.eraEnded) {
+      UI.openHallOfFameModal();
+      return;
+    }
+    for (let i = 0; i < count; i++) {
+      if (this.state.turn >= this.state.maxTurns) {
+        this.finishEra();
+        break;
+      }
+      this.processSingleTurn();
+    }
+    this.save();
+    UI.renderAll();
+  },
+
+  processSingleTurn() {
+    const p = this.state.player;
+    const econ = this.calcEconomy(p, true);
+
+    p.gold = Math.max(0, p.gold + econ.goldNet);
+    p.rice += econ.riceNet;
+
+    if (p.rice < 0) {
+      p.rice = 0;
+      const moraleLoss = this.getDoctrineLevel(p, 'blade') >= 3 ? 8 : 12;
+      p.morale = Math.max(20, p.morale - moraleLoss);
+      for (const uKey of Object.keys(p.units)) {
+        const lost = Math.ceil(p.units[uKey] * 0.12);
+        p.units[uKey] = Math.max(0, p.units[uKey] - lost);
+      }
+      this.addLog('event', 'Fome nos Celeiros!', 'As provisões acabaram! Soldados desertaram e a moral do feudo despencou.');
+      UI.toast('Escassez de Arroz! Tropas desertaram.', 'danger');
+    } else {
+      if (p.morale < 100) p.morale = Math.min(100, p.morale + 3);
+    }
+
+    const popCap = this.getPopCap(p);
+    if (p.pop < popCap && p.rice > 50) {
+      const growth = Math.max(2, Math.floor((popCap - p.pop) * 0.08 + p.buildings.village * 1.2));
+      p.pop = Math.min(popCap, p.pop + growth);
+    }
+
+    if (p.revoltTurns > 0) p.revoltTurns--;
+    if (p.econBoostTurns > 0) p.econBoostTurns--;
+
+    if (p.buildings.dojo > 0 && p.heroes.length > 0) {
+      const xpGain = p.buildings.dojo * BUILDINGS.dojo.heroXp;
+      p.heroes.forEach(h => this.grantHeroXp(h, xpGain));
+    }
+
+    const edictHonorBonus = this.hasGlobalEvent('shogun_edict') && p.honor >= 90 ? 2 : 1;
+    if (p.honor < 100) p.honor = Math.min(100, p.honor + edictHonorBonus);
+
+    this.advanceActiveResearch();
+    this.tickGlobalEvents();
+    this.processEraEvents();
+    this.processAITurns();
+
+    this.state.turn++;
+    if (this.state.turn >= this.state.maxTurns) {
+      this.finishEra();
+    }
+  },
+
+  startResearch(trackId) {
+    const p = this.state.player;
+    if (this.state.activeResearch) {
+      UI.toast('Já existe uma Doutrina em pesquisa no momento.', 'danger');
+      return;
+    }
+    const track = DOCTRINES[trackId];
+    const currentLv = this.getDoctrineLevel(p, trackId);
+    if (currentLv >= 3) {
+      UI.toast('Esta trilha doutrinária já atingiu o nível máximo.', 'danger');
+      return;
+    }
+    const node = track.levels[currentLv];
+    if (p.gold < node.goldCost) {
+      UI.toast(`Ouro insuficiente (${node.goldCost} Ryo necessários).`, 'danger');
+      return;
+    }
+    p.gold -= node.goldCost;
+    this.state.activeResearch = {
+      trackId,
+      targetLevel: node.level,
+      name: node.name,
+      turnsRemaining: node.turns,
+      totalTurns: node.turns
+    };
+    this.addLog('event', `Pesquisa Iniciada: ${node.name}`, `Sábios e mestres iniciaram os estudos de ${node.name} (${node.turns} turnos).`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`Pesquisa "${node.name}" iniciada!`, 'success');
+  },
+
+  advanceActiveResearch() {
+    const ar = this.state.activeResearch;
+    if (!ar) return;
+    ar.turnsRemaining--;
+    if (ar.turnsRemaining <= 0) {
+      this.state.player.doctrines[ar.trackId] = ar.targetLevel;
+      this.addLog('event', `Doutrina Concluída: ${ar.name}`, `A doutrina ${ar.name} (Nível ${ar.targetLevel}) agora está ativa no feudo!`);
+      UI.toast(`Doutrina "${ar.name}" concluída!`, 'success');
+      this.state.activeResearch = null;
+    }
+  },
+
+  tickGlobalEvents() {
+    this.state.globalEvents = this.state.globalEvents
+      .map(ev => ({ ...ev, turnsLeft: ev.turnsLeft - 1 }))
+      .filter(ev => ev.turnsLeft > 0);
+  },
+
+  processEraEvents() {
+    const turn = this.state.turn;
+    const shouldTriggerGlobal = (turn > 1 && turn % 12 === 0) || (turn > 4 && Math.random() < 0.08);
+
+    if (shouldTriggerGlobal && this.state.globalEvents.length < 2) {
+      const available = GLOBAL_EVENT_TEMPLATES.filter(t => !this.hasGlobalEvent(t.id));
+      if (available.length > 0) {
+        const chosen = available[Math.floor(Math.random() * available.length)];
+        this.state.globalEvents.push({
+          id: chosen.id,
+          name: chosen.name,
+          desc: chosen.desc,
+          turnsLeft: chosen.duration
+        });
+        this.addLog('event', `Evento Global: ${chosen.name}`, `${chosen.desc} (Duração: ${chosen.duration} turnos)`);
+        UI.toast(`Evento Global: ${chosen.name}!`, 'info');
+      }
+    }
+
+    if (!this.state.pendingChoiceEvent && turn > 3 && (turn % 10 === 0 || Math.random() < 0.09)) {
+      const roll = Math.random();
+      if (roll < 0.35) {
+        this.state.pendingChoiceEvent = {
+          id: 'wandering_smith',
+          title: 'Mestre Ferreiro Errante',
+          desc: 'Um ferreiro itinerante oferece forjar uma relíquia ancestral para seus Generais em troca de 320 Ouro, ou você pode dispensá-lo.',
+          optA: 'Forjar Relíquia (320 Ouro)',
+          optB: 'Dispensar com Cortesia'
+        };
+      } else if (roll < 0.70) {
+        this.state.pendingChoiceEvent = {
+          id: 'border_dispute',
+          title: 'Camponeses em Disputa de Fronteira',
+          desc: 'Aldeões disputam terras férteis na fronteira. Você pode anexar +5 hectares e elevar a Moral (+6%), ou impor disciplina para +15% de produção por 4 turnos.',
+          optA: 'Anexar +5 ha & +6% Moral',
+          optB: 'Impor Ordem (+15% Produção / 4t)'
+        };
+      } else {
+        this.state.pendingChoiceEvent = {
+          id: 'wandering_ronin',
+          title: 'Ronin à Procura de Abrigo',
+          desc: 'Um bando de 6 Ronin veteranos pede abrigo e soldo (240 Ouro e 140 Arroz) para servir como Samurai, ou você pode poupar seus celeiros.',
+          optA: 'Recrutar 6 Samurai (240 Ouro, 140 Arroz)',
+          optB: 'Recusar e Poupar Suprimentos (+5 Moral)'
+        };
+      }
+      this.addLog('event', `Decisão Requerida: ${this.state.pendingChoiceEvent.title}`, this.state.pendingChoiceEvent.desc);
+    }
+  },
+
+  resolveChoiceEvent(choiceIndex) {
+    const ev = this.state.pendingChoiceEvent;
+    const p = this.state.player;
+    if (!ev) return;
+
+    if (ev.id === 'wandering_smith') {
+      if (choiceIndex === 1) {
+        if (p.gold < 320) {
+          UI.toast('Ouro insuficiente (320 Ryo necessários).', 'danger');
+          return;
+        }
+        p.gold -= 320;
+        const baseRelic = RELICS[Math.floor(Math.random() * RELICS.length)];
+        const relic = {
+          name: `${baseRelic.name} (Forjado)`,
+          atk: Number((baseRelic.atk + 0.02).toFixed(2)),
+          def: Number((baseRelic.def + 0.02).toFixed(2)),
+          desc: `${baseRelic.desc} +2% Forja Especial`
+        };
+        if (p.heroes.length > 0 && !p.heroes[0].relic) {
+          p.heroes[0].relic = relic;
+        } else {
+          p.relicInventory.push(relic);
+        }
+        this.addLog('event', 'Relíquia Forjada pelo Mestre Ferreiro', `A relíquia "${relic.name}" foi adicionada ao arsenal do feudo.`);
+        UI.toast(`Relíquia "${relic.name}" forjada!`, 'success');
+      } else {
+        this.addLog('event', 'Mestre Ferreiro Dispensado', 'O ferreiro seguiu viagem sem alterar os cofres do feudo.');
+      }
+    } else if (ev.id === 'border_dispute') {
+      if (choiceIndex === 1) {
+        p.land += 5;
+        p.morale = Math.min(100, p.morale + 6);
+        this.addLog('event', 'Fronteira Consolidada', 'Anexamos +5 hectares e elevamos a Moral em +6%.');
+        UI.toast('+5 hectares e +6% Moral!', 'success');
+      } else {
+        p.econBoostTurns = 4;
+        this.addLog('event', 'Ordem Imperial na Fronteira', 'A produção do feudo recebeu +15% por 4 turnos.');
+        UI.toast('+15% Produção por 4 turnos!', 'success');
+      }
+    } else if (ev.id === 'wandering_ronin') {
+      if (choiceIndex === 1) {
+        if (p.gold < 240 || p.rice < 140) {
+          UI.toast('Recursos insuficientes (240 Ouro e 140 Arroz).', 'danger');
+          return;
+        }
+        if (this.getTotalUnits(p) + 6 > this.getArmyCap(p)) {
+          UI.toast('Capacidade dos Quartéis insuficiente para 6 Samurai.', 'danger');
+          return;
+        }
+        p.gold -= 240;
+        p.rice -= 140;
+        p.units.samurai += 6;
+        this.addLog('event', 'Ronin Incorporados ao Exército', '6 Samurai veteranos juntaram-se às fileiras do feudo.');
+        UI.toast('+6 Samurai recrutados!', 'success');
+      } else {
+        p.morale = Math.min(100, p.morale + 5);
+        this.addLog('event', 'Prudência nos Celeiros', 'Dispensamos os Ronin e elevamos a Moral em +5%.');
+      }
+    }
+
+    this.state.pendingChoiceEvent = null;
+    this.save();
+    UI.renderAll();
+  },
+
+  grantHeroXp(hero, amount) {
+    hero.xp += amount;
+    const req = hero.level * 100;
+    if (hero.xp >= req && hero.level < 15) {
+      hero.xp -= req;
+      hero.level++;
+      this.addLog('event', `General Promovido: ${hero.name}`, `${hero.name} alcançou o Nível ${hero.level}!`);
+    }
+  },
+
+  processAITurns() {
+    const p = this.state.player;
+    const pPow = this.calcPower(p, true);
+
+    this.state.aiFiefs.forEach(ai => {
+      const econ = this.calcEconomy(ai, false);
+      ai.gold = Math.max(0, ai.gold + econ.goldNet);
+      ai.rice = Math.max(20, ai.rice + econ.riceNet);
+      if (ai.revoltTurns > 0) ai.revoltTurns--;
+      if (ai.econBoostTurns > 0) ai.econBoostTurns--;
+
+      const popCap = this.getPopCap(ai);
+      if (ai.pop < popCap) ai.pop = Math.min(popCap, ai.pop + 4);
+
+      const usedLand = this.getUsedLand(ai);
+      if (usedLand >= ai.land - 1 && ai.gold > 240) {
+        ai.gold -= 165;
+        ai.land += 4;
+      }
+
+      if (this.state.turn % 8 === 0 && ai.gold > 260) {
+        const preferredTrack = ai.origin === 'shoukei' ? 'earth' : (ai.origin === 'tokoyami' ? 'veil' : 'blade');
+        const curLv = this.getDoctrineLevel(ai, preferredTrack);
+        if (curLv < 3) {
+          const docCost = DOCTRINES[preferredTrack].levels[curLv].goldCost;
+          if (ai.gold >= docCost + 100) {
+            ai.gold -= docCost;
+            ai.doctrines[preferredTrack] = curLv + 1;
+          }
+        }
+      }
+
+      if (ai.gold > 170 && this.getUsedLand(ai) < ai.land) {
+        const bKeys = Object.keys(BUILDINGS);
+        const pick = bKeys[Math.floor(Math.random() * bKeys.length)];
+        const cost = BUILDINGS[pick].goldCost;
+        if (ai.gold >= cost) {
+          ai.gold -= cost;
+          ai.buildings[pick]++;
+        }
+      }
+
+      const armyCap = this.getArmyCap(ai);
+      if (this.getTotalUnits(ai) < armyCap && ai.gold > 150 && ai.rice > 110) {
+        const uKeys = Object.keys(UNITS);
+        const pick = uKeys[Math.floor(Math.random() * uKeys.length)];
+        const u = UNITS[pick];
+        if (ai.gold >= u.goldCost * 2 && ai.rice >= u.riceCost * 2) {
+          ai.gold -= u.goldCost * 2;
+          ai.rice -= u.riceCost * 2;
+          ai.units[pick] += 2;
+        }
+      }
+
+      if (this.state.turn % 15 === 0 && ai.heroLevel < 10) {
+        ai.heroLevel++;
+      }
+
+      if (Math.random() < 0.045 && this.state.turn > 6) {
+        const isSameClan = p.clanId && p.clanId === ai.clanId;
+        const aiPow = this.calcPower(ai, false);
+        const isAtWar = p.clanId && this.isClanAtWar(p.clanId, ai.clanId);
+        const repeatedPlayerAggression = (this.state.aiAttackHistory[ai.id] || 0) >= 2;
+        const richTarget = p.gold > 1800 && pPow.totalDef < aiPow.totalAtk * 1.15;
+
+        if (!isSameClan && (isAtWar || repeatedPlayerAggression || richTarget || ai.relation < -30) && aiPow.totalAtk > pPow.totalDef * 0.72) {
+          this.resolveAIAttackOnPlayer(ai);
+        } else {
+          const targets = this.state.aiFiefs.filter(other => other.id !== ai.id && other.clanId !== ai.clanId);
+          if (targets.length > 0) {
+            const tgt = targets[Math.floor(Math.random() * targets.length)];
+            const tgtPow = this.calcPower(tgt, false);
+            if (aiPow.totalAtk > tgtPow.totalDef * 1.1) {
+              const landWon = Math.max(1, Math.floor(tgt.land * 0.06));
+              tgt.land = Math.max(15, tgt.land - landWon);
+              ai.land += landWon;
+              ai.gold += 90;
+              if (Math.random() < 0.35) {
+                this.addLog('combat', 'Conflito entre Daimyos', `${ai.name} invadiu ${tgt.name} e conquistou ${landWon} hectares.`);
+              }
+            }
+          }
+        }
+      }
+
+      if (!isSameClan(p, ai) && ai.ninjas > 2 && Math.random() < 0.025 && this.state.turn > 8) {
+        this.resolveAISpyOnPlayer(ai);
+      }
+    });
+
+    function isSameClan(a, b) {
+      return a.clanId && a.clanId === b.clanId;
+    }
+  },
+
+  resolveAIAttackOnPlayer(ai) {
+    const p = this.state.player;
+    const report = this.simulateBattle(ai, p, false, true);
+    if (report.attackerWon) {
+      const protectedRate = this.getDoctrineLevel(p, 'earth') >= 3 ? 0.60 : 1.0;
+      const goldStolen = Math.floor(Math.min(p.gold, p.gold * 0.16) * protectedRate);
+      const riceStolen = Math.floor(Math.min(p.rice, p.rice * 0.16) * protectedRate);
+      const landLost = Math.max(1, Math.min(p.land - 15, Math.floor(p.land * 0.065)));
+
+      p.gold -= goldStolen;
+      p.rice -= riceStolen;
+      p.land -= landLost;
+      ai.gold += goldStolen;
+      ai.rice += riceStolen;
+      ai.land += landLost;
+      const moraleLoss = this.getDoctrineLevel(p, 'blade') >= 3 ? 5 : 8;
+      p.morale = Math.max(25, p.morale - moraleLoss);
+
+      this.addLog('combat', `ATAQUE SOFRIDO: ${ai.name}`, `As forças de ${ai.name} romperam nossas defesas! Perdemos ${landLost} ha, ${goldStolen} Ouro e ${riceStolen} Arroz.`);
+      UI.toast(`Seu feudo foi atacado por ${ai.name}!`, 'danger');
+    } else {
+      p.honor = Math.min(100, p.honor + 4);
+      this.addLog('combat', `DEFESA VITORIOSA: ${ai.name}`, `Rechaçamos o exército invasor de ${ai.name} nas muralhas! (+4 Honra)`);
+      UI.toast(`Defesa vitoriosa contra ${ai.name}!`, 'success');
+    }
+  },
+
+  resolveAISpyOnPlayer(ai) {
+    const p = this.state.player;
+    const tokoyamiDef = ORIGINS[p.origin].id === 'tokoyami' ? 1.35 : 1.0;
+    const defRating = (p.ninjas * 12 + p.buildings.shadowGuild * 15) * tokoyamiDef;
+    const atkRating = ai.ninjas * 11 * (ORIGINS[ai.origin].spyMult);
+
+    if (atkRating > defRating * (0.8 + Math.random() * 0.6)) {
+      const protectedRate = this.getDoctrineLevel(p, 'earth') >= 3 ? 0.60 : 1.0;
+      const stolen = Math.floor(Math.min(p.gold, p.gold * 0.10) * protectedRate);
+      p.gold -= stolen;
+      ai.gold += stolen;
+      this.addLog('spy', 'Infiltração Detectada!', `Agentes de ${ai.name} infiltraram-se no tesouro e desviaram ${stolen} Ouro.`);
+      UI.toast(`Espiões de ${ai.name} roubaram ${stolen} Ouro!`, 'danger');
+    } else {
+      ai.ninjas = Math.max(1, ai.ninjas - 1);
+      this.addLog('spy', 'Shinobi Inimigo Capturado', `Nossa guarda interceptou e executou um espião enviado por ${ai.name}.`);
+    }
+  },
+
+  buildStructure(key) {
+    const p = this.state.player;
+    const qty = parseInt(document.getElementById('build-qty').value, 10) || 1;
+    const b = BUILDINGS[key];
+    const freeLand = p.land - this.getUsedLand(p);
+
+    if (freeLand < qty) {
+      UI.toast('Terras livres insuficientes! Explore mais hectares.', 'danger');
+      return;
+    }
+
+    let costMult = 1.0;
+    if (b.type === 'econ' && p.origin === 'shoukei') costMult *= ORIGINS.shoukei.econCostMult;
+    if (b.type === 'def' && p.origin === 'koumu') costMult *= 0.80;
+    if (this.getDoctrineLevel(p, 'earth') >= 2) costMult *= 0.85;
+
+    const totalCost = Math.floor(b.goldCost * costMult * qty);
+    if (p.gold < totalCost) {
+      UI.toast(`Ouro insuficiente (necessário: ${totalCost} Ryo).`, 'danger');
+      return;
+    }
+
+    p.gold -= totalCost;
+    p.buildings[key] += qty;
+    this.save();
+    UI.renderAll();
+    UI.toast(`${qty}x ${b.name} construída(s)!`, 'success');
+  },
+
+  demolishStructure(key) {
+    const p = this.state.player;
+    if (p.buildings[key] <= 0) return;
+    p.buildings[key]--;
+    p.gold += Math.floor(BUILDINGS[key].goldCost * 0.35);
+    this.save();
+    UI.renderAll();
+    UI.toast(`1x ${BUILDINGS[key].name} demolida.`, 'success');
+  },
+
+  getExploreCost(amount) {
+    const p = this.state.player;
+    const base = 28 + Math.floor(p.land * 1.15);
+    return Math.floor(base * amount * (amount >= 20 ? 0.90 : 1.0));
+  },
+
+  exploreLand(amount) {
+    const p = this.state.player;
+    const cost = this.getExploreCost(amount);
+    if (p.gold < cost) {
+      UI.toast(`Ouro insuficiente para expedição (${cost} Ryo).`, 'danger');
+      return;
+    }
+    p.gold -= cost;
+    p.land += amount;
+    this.addLog('event', 'Expansão Territorial', `Batedores reivindicaram +${amount} hectares de novas terras.`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`+${amount} hectares adicionados ao feudo!`, 'success');
+  },
+
+  recruitUnit(uKey, qty) {
+    const p = this.state.player;
+    const u = UNITS[uKey];
+    const cap = this.getArmyCap(p);
+    const current = this.getTotalUnits(p);
+
+    if (current + qty > cap) {
+      UI.toast('Capacidade dos Quartéis atingida! Construa mais Quartéis.', 'danger');
+      return;
+    }
+
+    const coinMult = this.getDoctrineLevel(p, 'earth') >= 2 ? 0.85 : 1.0;
+    const totalGold = Math.floor(u.goldCost * qty * coinMult);
+    const totalRice = u.riceCost * qty;
+    if (p.gold < totalGold || p.rice < totalRice) {
+      UI.toast(`Recursos insuficientes (${totalGold} Ouro, ${totalRice} Arroz).`, 'danger');
+      return;
+    }
+
+    p.gold -= totalGold;
+    p.rice -= totalRice;
+    p.units[uKey] += qty;
+    this.save();
+    UI.renderAll();
+    UI.toast(`${qty}x ${u.name} recrutado(s)!`, 'success');
+  },
+
+  setStance(stance) {
+    this.state.player.stance = stance;
+    this.save();
+    UI.renderAll();
+  },
+
+  recruitHero(poolIndex) {
+    const p = this.state.player;
+    if (p.heroes.length >= 3) {
+      UI.toast('Limite de 3 Generais ativos atingido.', 'danger');
+      return;
+    }
+    if (p.buildings.dojo < p.heroes.length + 1) {
+      UI.toast(`Requer ${p.heroes.length + 1} Dojo(s) construído(s) para convocar outro General.`, 'danger');
+      return;
+    }
+    const cost = 420 + p.heroes.length * 320;
+    if (p.gold < cost) {
+      UI.toast(`Ouro insuficiente (${cost} Ryo).`, 'danger');
+      return;
+    }
+    const tpl = HERO_POOL[poolIndex];
+    if (p.heroes.some(h => h.name === tpl.name)) {
+      UI.toast('Este General já serve ao seu feudo.', 'danger');
+      return;
+    }
+    p.gold -= cost;
+    p.heroes.push({
+      id: 'h_' + Date.now(),
+      name: tpl.name,
+      spec: tpl.spec,
+      level: 1,
+      xp: 0,
+      atkBonus: tpl.atkBonus,
+      defBonus: tpl.defBonus,
+      stratBonus: tpl.stratBonus,
+      relic: null
+    });
+    UI.closeModal();
+    this.addLog('event', 'Novo General Convocado', `${tpl.name} (${tpl.spec}) jurou lealdade ao seu estandarte.`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`${tpl.name} juntou-se ao seu conselho!`, 'success');
+  },
+
+  equipRelic(heroId, relicIdx) {
+    const p = this.state.player;
+    const hero = p.heroes.find(h => h.id === heroId);
+    if (!hero || relicIdx < 0 || relicIdx >= p.relicInventory.length) return;
+    const relic = p.relicInventory.splice(relicIdx, 1)[0];
+    if (hero.relic) {
+      p.relicInventory.push(hero.relic);
+    }
+    hero.relic = relic;
+    this.save();
+    UI.renderAll();
+    UI.toast(`${relic.name} equipada em ${hero.name}.`, 'success');
+  },
+
+  attackFief(aiId) {
+    const p = this.state.player;
+    const target = this.state.aiFiefs.find(f => f.id === aiId);
+    if (!target) return;
+
+    if (this.getTotalUnits(p) < 10) {
+      UI.toast('Você precisa de pelo menos 10 soldados para marchar.', 'danger');
+      return;
+    }
+
+    if (p.clanId && p.clanId === target.clanId) {
+      UI.toast('Você não pode atacar um membro do seu próprio Clã!', 'danger');
+      return;
+    }
+
+    const pPow = this.calcPower(p, true);
+    const tPow = this.calcPower(target, false);
+    const ratio = tPow.powerScore / Math.max(1, pPow.powerScore);
+    const minSafeRatio = p.origin === 'kougen' ? 0.25 : 0.60;
+    let honorPenalty = 0;
+
+    if (ratio < minSafeRatio) {
+      const edictMult = this.hasGlobalEvent('shogun_edict') ? 2 : 1;
+      honorPenalty = 12 * edictMult;
+      p.honor = Math.max(0, p.honor - honorPenalty);
+    }
+
+    if (this.getDoctrineLevel(p, 'blade') >= 2) {
+      const marchDiscount = Math.floor(this.getTotalUnits(p) * 0.45);
+      p.rice = Math.max(0, p.rice - marchDiscount);
+    }
+
+    this.state.aiAttackHistory[target.id] = (this.state.aiAttackHistory[target.id] || 0) + 1;
+    if (target.clanId) {
+      this.state.aiFiefs.forEach(ally => {
+        if (ally.clanId === target.clanId && ally.id !== target.id) {
+          ally.relation = Math.max(-100, ally.relation - 15);
+        }
+      });
+    }
+
+    const report = this.simulateBattle(p, target, true, false);
+    target.relation -= 35;
+
+    let goldLoot = 0;
+    let riceLoot = 0;
+    let landWon = 0;
+    let relicFound = null;
+
+    if (report.attackerWon) {
+      const shusenLoot = p.origin === 'shusen' ? 1.15 : 1.0;
+      const cavBonus = 1 + Math.min(0.5, (p.units.cavalry * UNITS.cavalry.loot) / 1000);
+      const targetProtected = this.getDoctrineLevel(target, 'earth') >= 3 ? 0.60 : 1.0;
+      goldLoot = Math.floor(target.gold * 0.28 * shusenLoot * cavBonus * targetProtected);
+      riceLoot = Math.floor(target.rice * 0.28 * shusenLoot * cavBonus * targetProtected);
+      landWon = Math.max(2, Math.min(target.land - 10, Math.floor(target.land * 0.11)));
+
+      target.gold = Math.max(0, target.gold - goldLoot);
+      target.rice = Math.max(0, target.rice - riceLoot);
+      target.land -= landWon;
+
+      p.gold += goldLoot;
+      p.rice += riceLoot;
+      p.land += landWon;
+      p.morale = Math.min(100, p.morale + 5);
+
+      const xpWon = 45 + Math.floor(tPow.powerScore / 80);
+      p.heroes.forEach(h => this.grantHeroXp(h, xpWon));
+
+      if (Math.random() < 0.22 && p.relicInventory.length < 6) {
+        const r = RELICS[Math.floor(Math.random() * RELICS.length)];
+        p.relicInventory.push({ ...r });
+        relicFound = r.name;
+      }
+
+      this.addLog(
+        'combat',
+        `VITÓRIA SOBRE ${target.name}`,
+        `Conquistamos ${landWon} ha, saqueamos ${goldLoot} Ouro e ${riceLoot} Arroz.${honorPenalty ? ` (-${honorPenalty} Honra por alvo fraco)` : ''}`
+      );
+    } else {
+      const moraleLoss = this.getDoctrineLevel(p, 'blade') >= 3 ? 6 : 10;
+      p.morale = Math.max(20, p.morale - moraleLoss);
+      const xpWon = 18;
+      p.heroes.forEach(h => this.grantHeroXp(h, xpWon));
+      this.addLog(
+        'combat',
+        `DERROTA EM ${target.name}`,
+        `Nossas tropas recuaram após enfrentar forte resistência nas muralhas de ${target.name}.`
+      );
+    }
+
+    report.goldLoot = goldLoot;
+    report.riceLoot = riceLoot;
+    report.landWon = landWon;
+    report.honorPenalty = honorPenalty;
+    report.relicFound = relicFound;
+    report.targetName = target.name;
+
+    this.save();
+    UI.renderAll();
+    UI.openBattleReportModal(report);
+  },
+
+  simulateBattle(attacker, defender, atkIsPlayer, defIsPlayer) {
+    const atkPow = this.calcPower(attacker, atkIsPlayer);
+    const defPow = this.calcPower(defender, defIsPlayer);
+
+    const phases = [];
+
+    const atkArch = attacker.units.yumi * UNITS.yumi.atk * (atkIsPlayer ? ORIGINS[attacker.origin].atkMult : 1);
+    const defArch = defender.units.yumi * UNITS.yumi.def * defPow.wallMult * 1.25;
+    phases.push({
+      name: 'Fase I: Chuva de Flechas',
+      desc: atkArch >= defArch
+        ? 'Nossos arqueiros Yumi suprimiram os defensores nas ameias.'
+        : 'Os arqueiros defensores castigaram o avanço inicial a partir das muralhas.'
+    });
+
+    const defYariBonus = this.getDoctrineLevel(defender, 'blade') >= 1 ? 1.20 : 1.0;
+    const atkCav = attacker.units.cavalry * UNITS.cavalry.atk * 1.2;
+    const defSpear = defender.units.ashigaru * UNITS.ashigaru.def * 1.1 * defYariBonus;
+    phases.push({
+      name: 'Fase II: Carga de Cavalaria',
+      desc: atkCav >= defSpear
+        ? 'A cavalaria rompeu os flancos inimigos em uma carga devastadora.'
+        : (defYariBonus > 1 ? 'A formação Yari-Dori conteve com firmeza a carga da cavalaria!' : 'Uma parede de lanças Yari conteve o ímpeto da cavalaria.')
+    });
+
+    const atkInf = (attacker.units.samurai * UNITS.samurai.atk + attacker.units.ashigaru * UNITS.ashigaru.atk);
+    const defInf = (defender.units.samurai * UNITS.samurai.def + defender.units.ashigaru * UNITS.ashigaru.def) * defPow.wallMult;
+    phases.push({
+      name: 'Fase III: Choque de Infantaria',
+      desc: atkInf >= defInf
+        ? 'Os Samurais abriram caminho no centro da formação inimiga.'
+        : 'A linha de escudo defensiva manteve o pátio principal sob controle.'
+    });
+
+    const luck = 0.90 + Math.random() * 0.20;
+    const effectiveAtk = atkPow.totalAtk * luck;
+    const effectiveDef = defPow.totalDef;
+    const attackerWon = effectiveAtk > effectiveDef;
+
+    const ratio = Math.min(2.5, Math.max(0.35, effectiveDef / Math.max(1, effectiveAtk)));
+    const atkLossRate = attackerWon ? Math.min(0.24, 0.08 * ratio) : Math.min(0.42, 0.22 * ratio);
+    const defLossRate = attackerWon ? Math.min(0.38, 0.18 / ratio) : Math.min(0.20, 0.07 / ratio);
+
+    const atkLosses = {};
+    const defLosses = {};
+
+    for (const uKey of Object.keys(UNITS)) {
+      const aLost = Math.floor(attacker.units[uKey] * atkLossRate);
+      const dLost = Math.floor(defender.units[uKey] * defLossRate);
+      attacker.units[uKey] = Math.max(0, attacker.units[uKey] - aLost);
+      defender.units[uKey] = Math.max(0, defender.units[uKey] - dLost);
+      atkLosses[uKey] = aLost;
+      defLosses[uKey] = dLost;
+    }
+
+    phases.push({
+      name: 'Fase IV: Duelo de Generais & Desfecho',
+      desc: attackerWon
+        ? 'O comandante defensor ordenou retirada geral. O castelo foi tomado!'
+        : 'O comando defensor resistiu ao cerco e forçou o recuo dos atacantes.'
+    });
+
+    return {
+      attackerWon,
+      effectiveAtk: Math.floor(effectiveAtk),
+      effectiveDef: Math.floor(effectiveDef),
+      phases,
+      atkLosses,
+      defLosses
+    };
+  },
+
+  recruitNinja(qty) {
+    const p = this.state.player;
+    const cap = this.getNinjaCap(p);
+    if (p.ninjas + qty > cap) {
+      UI.toast('Capacidade da Guilda das Sombras atingida!', 'danger');
+      return;
+    }
+    const cost = 95 * qty;
+    if (p.gold < cost) {
+      UI.toast(`Ouro insuficiente (${cost} Ryo).`, 'danger');
+      return;
+    }
+    p.gold -= cost;
+    p.ninjas += qty;
+    this.save();
+    UI.renderAll();
+    UI.toast(`${qty} Shinobi treinado(s) nas sombras.`, 'success');
+  },
+
+  calcSpyChance(target, mission, agents) {
+    const p = this.state.player;
+    const origMult = ORIGINS[p.origin].spyMult;
+    const targetTokoyami = target.origin === 'tokoyami' ? 1.25 : 1.0;
+    const missionDiff = { recon: 1.15, sabotage: 0.95, steal: 0.85, revolt: 0.80 }[mission] || 1.0;
+
+    const atkScore = agents * 18 * origMult * missionDiff;
+    const defScore = (target.ninjas * 13 + target.buildings.shadowGuild * 16) * targetTokoyami;
+    const chance = Math.min(94, Math.max(12, Math.round((atkScore / (atkScore + defScore)) * 100)));
+    const cost = agents * 45;
+    return { chance, cost };
+  },
+
+  executeSpyMission() {
+    const p = this.state.player;
+    const targetId = document.getElementById('spy-target-select').value;
+    const mission = document.getElementById('spy-mission-select').value;
+    const agents = parseInt(document.getElementById('spy-agents-input').value, 10) || 1;
+    const target = this.state.aiFiefs.find(f => f.id === targetId);
+
+    if (!target) return;
+    if (agents < 1 || agents > p.ninjas) {
+      UI.toast('Número de agentes inválido ou indisponível.', 'danger');
+      return;
+    }
+
+    const { chance, cost } = this.calcSpyChance(target, mission, agents);
+    if (p.gold < cost) {
+      UI.toast(`Ouro insuficiente para financiar a operação (${cost} Ryo).`, 'danger');
+      return;
+    }
+
+    p.gold -= cost;
+    const veilLv = this.getDoctrineLevel(p, 'veil');
+    const effectBoost = veilLv >= 2 ? 1.25 : 1.0;
+    const roll = Math.random() * 100;
+
+    if (roll <= chance) {
+      let summary = '';
+      if (mission === 'recon') {
+        target.intel = {
+          turn: this.state.turn,
+          gold: target.gold,
+          rice: target.rice,
+          walls: target.buildings.walls,
+          units: { ...target.units },
+          ninjas: target.ninjas
+        };
+        summary = `Reconhecimento completo em ${target.name}: ${target.gold} Ouro, ${target.rice} Arroz, Muralhas Nv.${target.buildings.walls}, ${this.getTotalUnits(target)} tropas.`;
+      } else if (mission === 'sabotage') {
+        const pct = (0.25 + Math.random() * 0.15) * effectBoost;
+        const targetProtected = this.getDoctrineLevel(target, 'earth') >= 3 ? 0.60 : 1.0;
+        const destroyed = Math.floor(target.rice * pct * targetProtected);
+        target.rice = Math.max(0, target.rice - destroyed);
+        summary = `Celeiros incendiados em ${target.name}! ${destroyed} unidades de arroz foram destruídas.`;
+      } else if (mission === 'steal') {
+        const pct = (0.15 + Math.random() * 0.15) * effectBoost;
+        const targetProtected = this.getDoctrineLevel(target, 'earth') >= 3 ? 0.60 : 1.0;
+        const stolen = Math.floor(target.gold * pct * targetProtected);
+        target.gold = Math.max(0, target.gold - stolen);
+        p.gold += stolen;
+        summary = `Tesouro violado em ${target.name}! Desviamos ${stolen} Ouro para nossos cofres.`;
+      } else if (mission === 'revolt') {
+        target.revoltTurns = 3;
+        const moraleDrop = Math.round(15 * effectBoost);
+        target.morale = Math.max(35, target.morale - moraleDrop);
+        summary = `Revolta camponesa incitada em ${target.name}! Moral -${moraleDrop}% e produção reduzida por 3 turnos.`;
+      }
+
+      this.addLog('spy', `Missão Shinobi Bem-Sucedida (${target.name})`, summary);
+      UI.toast('Operação concluída com sucesso!', 'success');
+    } else {
+      let captureChance = p.origin === 'tokoyami' ? 0.35 : 0.60;
+      if (veilLv >= 1) captureChance = Math.max(0.10, captureChance - 0.20);
+      const lost = Math.random() < captureChance ? Math.max(1, Math.ceil(agents * 0.5)) : 0;
+      p.ninjas = Math.max(0, p.ninjas - lost);
+      target.relation -= 20;
+      this.addLog(
+        'spy',
+        `Operação Fracassada (${target.name})`,
+        `Nossos agentes falharam em ${target.name}.${lost > 0 ? ` ${lost} Shinobi foram capturados!` : ' Todos recuaram nas sombras.'}`
+      );
+      UI.toast('A missão secreta falhou!', 'danger');
+    }
+
+    this.save();
+    UI.renderAll();
+  },
+
+  joinClan(clanId) {
+    const p = this.state.player;
+    p.clanId = clanId;
+    const clan = this.state.clans.find(c => c.id === clanId);
+    this.addLog('diplo', `Aliança Firmada: ${clan.name}`, `Seu feudo agora marcha sob o estandarte de ${clan.name}.`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`Você ingressou em ${clan.name}!`, 'success');
+  },
+
+  createClan() {
+    const name = document.getElementById('new-clan-name').value.trim();
+    const tag = document.getElementById('new-clan-tag').value.trim().toUpperCase().slice(0, 4);
+    const bonusType = document.getElementById('new-clan-bonus').value;
+
+    if (!name || !tag) {
+      UI.toast('Preencha o nome e a sigla do Clã.', 'danger');
+      return;
+    }
+    if (this.state.player.gold < 600) {
+      UI.toast('São necessários 600 Ouro para fundar um novo Clã.', 'danger');
+      return;
+    }
+
+    this.state.player.gold -= 600;
+    const newClan = {
+      id: 'clan_custom_' + Date.now(),
+      name,
+      tag,
+      bonusType,
+      bonusVal: bonusType === 'econ' ? 0.10 : 0.08,
+      desc: bonusType === 'econ' ? '+10% Produção de Ouro e Arroz' : (bonusType === 'atk' ? '+8% Poder Ofensivo' : '+8% Defesa Territorial'),
+      treasury: 300
+    };
+    this.state.clans.push(newClan);
+    this.state.player.clanId = newClan.id;
+    this.addLog('diplo', `Novo Clã Fundado: ${name} [${tag}]`, `Você fundou uma nova coalizão feudal.`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`Clã ${name} fundado com sucesso!`, 'success');
+  },
+
+  leaveClan() {
+    this.state.player.clanId = null;
+    this.save();
+    UI.renderAll();
+    UI.toast('Você deixou o Clã.', 'success');
+  },
+
+  donateToClan(amount) {
+    const p = this.state.player;
+    if (!p.clanId || p.gold < amount) {
+      UI.toast('Ouro insuficiente para doação.', 'danger');
+      return;
+    }
+    const clan = this.state.clans.find(c => c.id === p.clanId);
+    p.gold -= amount;
+    clan.treasury += amount;
+    p.honor = Math.min(100, p.honor + 2);
+    this.addLog('diplo', 'Tributo ao Tesouro do Clã', `Você contribuiu com ${amount} Ouro para ${clan.name} (+2 Honra).`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`+${amount} Ouro doados ao tesouro do Clã!`, 'success');
+  },
+
+  requestClanReinforcements() {
+    const p = this.state.player;
+    if (!p.clanId) return;
+    const clan = this.state.clans.find(c => c.id === p.clanId);
+    if (clan.treasury < 500) {
+      UI.toast('O tesouro do Clã precisa de pelo menos 500 Ouro para enviar reforços.', 'danger');
+      return;
+    }
+    const cap = this.getArmyCap(p);
+    const space = cap - this.getTotalUnits(p);
+    if (space < 15) {
+      UI.toast('Aumente a capacidade dos Quartéis antes de pedir reforços.', 'danger');
+      return;
+    }
+    clan.treasury -= 500;
+    p.units.ashigaru += 12;
+    p.units.samurai += 3;
+    this.addLog('diplo', 'Reforços Aliados Recebidos', `${clan.name} enviou 12 Ashigaru e 3 Samurai para guarnecer seu castelo.`);
+    this.save();
+    UI.renderAll();
+    UI.toast('Reforços do Clã chegaram ao feudo!', 'success');
+  },
+
+  declareClanWar(targetClanId) {
+    const p = this.state.player;
+    if (!p.clanId || p.clanId === targetClanId) return;
+    if (this.isClanAtWar(p.clanId, targetClanId)) return;
+    this.state.wars.push([p.clanId, targetClanId]);
+    const targetClan = this.state.clans.find(c => c.id === targetClanId);
+    this.state.aiFiefs.forEach(ai => {
+      if (ai.clanId === targetClanId) {
+        ai.relation = Math.max(-100, ai.relation - 35);
+      }
+    });
+    this.addLog('diplo', `GUERRA DECLARADA: ${targetClan.name}`, `Os tambores de guerra ressoam entre os clãs!`);
+    this.save();
+    UI.renderAll();
+    UI.toast(`Guerra declarada contra ${targetClan.name}!`, 'danger');
+  },
+
+  isClanAtWar(c1, c2) {
+    if (!c1 || !c2) return false;
+    return this.state.wars.some(w => (w[0] === c1 && w[1] === c2) || (w[0] === c2 && w[1] === c1));
+  },
+
+  toggleAuto() {
+    const btn = document.getElementById('btn-auto-toggle');
+    if (this.autoTimer) {
+      clearInterval(this.autoTimer);
+      this.autoTimer = null;
+      this.autoSeconds = 0;
+      document.getElementById('auto-progress-bar').style.width = '0%';
+      btn.textContent = 'Auto: OFF';
+      btn.classList.remove('btn-jade');
+    } else {
+      btn.textContent = 'Auto: ON (10s)';
+      btn.classList.add('btn-jade');
+      this.autoTimer = setInterval(() => {
+        if (this.state.eraEnded) {
+          this.toggleAuto();
+          return;
+        }
+        this.autoSeconds += 0.5;
+        const pct = Math.min(100, (this.autoSeconds / this.AUTO_INTERVAL) * 100);
+        document.getElementById('auto-progress-bar').style.width = pct + '%';
+        if (this.autoSeconds >= this.AUTO_INTERVAL) {
+          this.autoSeconds = 0;
+          this.advanceTurns(1);
+        }
+      }, 500);
+    }
+  },
+
+  calcFinalScore(entity, isPlayer) {
+    const pow = this.calcPower(entity, isPlayer);
+    const econScore = Math.floor((entity.gold + entity.rice) * 0.15 + entity.pop * 2);
+    const landScore = entity.land * 25;
+    const honorBonusMult = this.hasGlobalEvent('shogun_edict') && entity.honor >= 90 ? 1.25 : 1.0;
+    const honorScore = Math.floor(entity.honor * 8 * honorBonusMult);
+    const total = pow.totalAtk + pow.totalDef + econScore + landScore + honorScore;
+    return {
+      military: pow.totalAtk + pow.totalDef,
+      economy: econScore,
+      territory: landScore,
+      honor: honorScore,
+      total
+    };
+  },
+
+  finishEra() {
+    if (this.state.eraEnded) return;
+    this.state.eraEnded = true;
+    if (this.autoTimer) this.toggleAuto();
+
+    const pScore = this.calcFinalScore(this.state.player, true);
+    const allScores = [
+      { name: this.state.player.name, isPlayer: true, origin: this.state.player.origin, score: pScore.total },
+      ...this.state.aiFiefs.map(ai => ({
+        name: ai.name,
+        isPlayer: false,
+        origin: ai.origin,
+        score: this.calcFinalScore(ai, false).total
+      }))
+    ].sort((a, b) => b.score - a.score);
+
+    const rank = allScores.findIndex(x => x.isPlayer) + 1;
+    const prestigeEarned = Math.max(2, 18 - rank);
+    this.state.prestige += prestigeEarned;
+
+    this.state.hallOfFame.unshift({
+      era: this.state.eraNumber,
+      fief: this.state.player.name,
+      origin: ORIGINS[this.state.player.origin].short,
+      rank,
+      score: pScore.total,
+      prestigeEarned
+    });
+
+    this.save();
+    UI.openHallOfFameModal(allScores, pScore, rank, prestigeEarned);
+  },
+
+  startNewEra(fiefName, originId, maxTurns) {
+    const prestige = this.state.prestige;
+    const hof = this.state.hallOfFame;
+    const nextEra = this.state.eraNumber + 1;
+    this.state = this.createDefaultState(fiefName, originId, maxTurns, prestige, hof, nextEra);
+    this.save();
+    UI.closeModal();
+    UI.renderAll();
+    UI.toast(`Era ${nextEra} iniciada com ${prestige} Pontos de Prestígio!`, 'success');
+  },
+
+  clearLogs() {
+    this.state.logs = [];
+    this.state.unreadLogs = 0;
+    this.save();
+    UI.renderLogs();
+  }
+};
+
+const UI = {
+  activeTab: 'overview',
+
+  switchTab(tabId) {
+    this.activeTab = tabId;
+    document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+    document.getElementById('tab-' + tabId).classList.add('active');
+    document.querySelector(`.nav-btn[data-tab="${tabId}"]`).classList.add('active');
+
+    if (tabId === 'logs') {
+      Game.state.unreadLogs = 0;
+      this.updateLogBadge();
+    }
+    this.renderAll();
+  },
+
+  renderAll() {
+    const s = Game.state;
+    const p = s.player;
+    const econ = Game.calcEconomy(p, true);
+    const pow = Game.calcPower(p, true);
+
+    document.getElementById('hdr-fief-name').textContent = p.name;
+    document.getElementById('hdr-fief-sub').textContent = `Era ${s.eraNumber} • ${ORIGINS[p.origin].name}`;
+    document.getElementById('hdr-turn').textContent = `Turno ${s.turn} / ${s.maxTurns}`;
+
+    document.getElementById('res-gold').textContent = Math.floor(p.gold).toLocaleString('pt-BR');
+    const dg = document.getElementById('delta-gold');
+    dg.textContent = (econ.goldNet >= 0 ? '+' : '') + econ.goldNet;
+    dg.className = 'res-delta ' + (econ.goldNet >= 0 ? 'delta-pos' : 'delta-neg');
+
+    document.getElementById('res-rice').textContent = Math.floor(p.rice).toLocaleString('pt-BR');
+    const dr = document.getElementById('delta-rice');
+    dr.textContent = (econ.riceNet >= 0 ? '+' : '') + econ.riceNet;
+    dr.className = 'res-delta ' + (econ.riceNet >= 0 ? 'delta-pos' : 'delta-neg');
+
+    const usedLand = Game.getUsedLand(p);
+    document.getElementById('res-land').textContent = `${usedLand} / ${p.land}`;
+
+    const popCap = Game.getPopCap(p);
+    document.getElementById('res-pop').textContent = `${p.pop} / ${popCap}`;
+    document.getElementById('res-morale').textContent = `Moral ${p.morale}%`;
+
+    document.getElementById('res-power').textContent = pow.powerScore.toLocaleString('pt-BR');
+    document.getElementById('res-honor').textContent = `Honra ${p.honor}`;
+
+    this.updateLogBadge();
+
+    if (this.activeTab === 'overview') this.renderOverview(econ, pow);
+    if (this.activeTab === 'buildings') this.renderBuildings();
+    if (this.activeTab === 'military') this.renderMilitary(pow);
+    if (this.activeTab === 'doctrines') this.renderDoctrines();
+    if (this.activeTab === 'warroom') this.renderWarRoom();
+    if (this.activeTab === 'ninja') this.renderNinja();
+    if (this.activeTab === 'clan') this.renderClan();
+    if (this.activeTab === 'logs') this.renderLogs();
+  },
+
+  updateLogBadge() {
+    const badge = document.getElementById('log-badge');
+    if (Game.state.unreadLogs > 0) {
+      badge.style.display = 'inline-block';
+      badge.textContent = Game.state.unreadLogs;
+    } else {
+      badge.style.display = 'none';
+    }
+  },
+
+  renderOverview(econ, pow) {
+    const s = Game.state;
+    const p = s.player;
+
+    document.getElementById('overview-era-tag').innerHTML = `
+      <span class="tag tag-gold">Prestígio: ${s.prestige} (+${s.prestige}% Produção)</span>
+    `;
+
+    const globalHtml = s.globalEvents.length > 0
+      ? s.globalEvents.map(ev => `
+        <div class="event-banner">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong style="color:var(--gold)">Evento Global Ativo: ${ev.name}</strong>
+            <span class="tag tag-gold">${ev.turnsLeft} turno(s) restante(s)</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--parchment);margin-top:4px;">${ev.desc}</div>
+        </div>
+      `).join('')
+      : '';
+    document.getElementById('overview-active-events').innerHTML = globalHtml;
+
+    const choice = s.pendingChoiceEvent;
+    document.getElementById('overview-choice-event').innerHTML = choice
+      ? `
+        <div class="card card-gold" style="margin-bottom:14px;background:#221f18;">
+          <div class="card-title">
+            <span style="color:var(--gold)">Decisão do Daimyo: ${choice.title}</span>
+            <span class="tag tag-crimson">Ação Requerida</span>
+          </div>
+          <p style="font-size:0.88rem;color:var(--text-main);margin-bottom:12px;">${choice.desc}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <button class="btn-gold btn-sm" onclick="Game.resolveChoiceEvent(1)">${choice.optA}</button>
+            <button class="btn-sm" onclick="Game.resolveChoiceEvent(2)">${choice.optB}</button>
+          </div>
+        </div>
+      `
+      : '';
+
+    const alerts = [];
+    if (econ.riceNet < 0) {
+      alerts.push(`<div class="card card-crimson" style="margin-bottom:8px;padding:10px 14px;"><strong>Alerta de Suprimentos:</strong> O consumo de arroz supera a produção em ${Math.abs(econ.riceNet)}/turno. Construa Campos de Arroz!</div>`);
+    }
+    if (econ.workerEff < 85) {
+      alerts.push(`<div class="card card-gold" style="margin-bottom:8px;padding:10px 14px;"><strong>Escassez de Mão de Obra:</strong> Eficiência das construções em ${econ.workerEff}%. Construa Vilas para abrigar mais camponeses.</div>`);
+    }
+    if (p.revoltTurns > 0) {
+      alerts.push(`<div class="card card-crimson" style="margin-bottom:8px;padding:10px 14px;"><strong>Revolta Camponesa Ativa:</strong> Produção reduzida por mais ${p.revoltTurns} turno(s).</div>`);
+    }
+    document.getElementById('overview-alerts').innerHTML = alerts.join('');
+
+    document.getElementById('ov-economy-stats').innerHTML = `
+      <div class="stat-row"><span class="stat-label">Receita Bruta de Ouro</span><span class="stat-value delta-pos">+${econ.goldIncome}</span></div>
+      <div class="stat-row"><span class="stat-label">Manutenção Militar</span><span class="stat-value delta-neg">-${econ.goldUpkeep}</span></div>
+      <div class="stat-row"><span class="stat-label">Colheita de Arroz</span><span class="stat-value delta-pos">+${econ.riceIncome}</span></div>
+      <div class="stat-row"><span class="stat-label">Consumo (Povo + Tropas)</span><span class="stat-value delta-neg">-${econ.riceUpkeep}</span></div>
+      <div class="stat-row"><span class="stat-label">Eficiência de Trabalho</span><span class="stat-value">${econ.workerEff}%</span></div>
+    `;
+
+    document.getElementById('ov-military-stats').innerHTML = `
+      <div class="stat-row"><span class="stat-label">Poder Ofensivo</span><span class="stat-value">${pow.totalAtk.toLocaleString('pt-BR')}</span></div>
+      <div class="stat-row"><span class="stat-label">Poder Defensivo</span><span class="stat-value">${pow.totalDef.toLocaleString('pt-BR')}</span></div>
+      <div class="stat-row"><span class="stat-label">Bônus de Muralhas</span><span class="stat-value">x${pow.wallMult.toFixed(2)}</span></div>
+      <div class="stat-row"><span class="stat-label">Tropas Ativas</span><span class="stat-value">${Game.getTotalUnits(p)} / ${Game.getArmyCap(p)}</span></div>
+      <div class="stat-row"><span class="stat-label">Agentes Shinobi</span><span class="stat-value">${p.ninjas} / ${Game.getNinjaCap(p)}</span></div>
+    `;
+
+    const clanName = p.clanId ? s.clans.find(c => c.id === p.clanId)?.name : 'Independente (Sem Clã)';
+    const docSum = (p.doctrines.earth || 0) + (p.doctrines.blade || 0) + (p.doctrines.veil || 0);
+    document.getElementById('ov-identity-stats').innerHTML = `
+      <div class="stat-row"><span class="stat-label">Origem</span><span class="stat-value">${ORIGINS[p.origin].name}</span></div>
+      <div class="stat-row"><span class="stat-label">Clã Atual</span><span class="stat-value">${clanName}</span></div>
+      <div class="stat-row"><span class="stat-label">Doutrinas Ativas</span><span class="stat-value">${docSum} / 9 Níveis</span></div>
+      <div class="stat-row"><span class="stat-label">Generais Ativos</span><span class="stat-value">${p.heroes.length} / 3</span></div>
+      <div class="stat-row"><span class="stat-label">Eras Concluídas</span><span class="stat-value">${s.hallOfFame.length}</span></div>
+    `;
+
+    const recent = s.logs.slice(0, 4);
+    document.getElementById('ov-recent-logs').innerHTML = recent.map(l => `
+      <div class="log-entry ${l.type}">
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--text-muted)">
+          <strong>${l.title}</strong>
+          <span>Turno ${l.turn}</span>
+        </div>
+        <div style="font-size:0.84rem;margin-top:3px;">${l.text}</div>
+      </div>
+    `).join('');
+
+    const ranking = this.getRankedFiefs().slice(0, 5);
+    document.getElementById('ov-top-fiefs').innerHTML = ranking.map((f, i) => `
+      <div class="stat-row">
+        <span><strong>#${i + 1}</strong> ${f.name} ${f.isPlayer ? '<span class="tag tag-gold">Você</span>' : ''}</span>
+        <span class="stat-value">${f.powerScore.toLocaleString('pt-BR')}</span>
+      </div>
+    `).join('');
+  },
+
+  renderBuildings() {
+    const p = Game.state.player;
+    const used = Game.getUsedLand(p);
+    const free = p.land - used;
+    const pct = Math.min(100, Math.round((used / p.land) * 100));
+
+    document.getElementById('land-free-tag').textContent = `${free} ha livres`;
+    document.getElementById('land-usage-bar').style.width = pct + '%';
+    document.getElementById('land-usage-text').textContent = `Ocupação: ${used} de ${p.land} hectares (${pct}%)`;
+    document.getElementById('explore-cost-5').textContent = Game.getExploreCost(5);
+    document.getElementById('explore-cost-20').textContent = Game.getExploreCost(20);
+
+    const qty = parseInt(document.getElementById('build-qty').value, 10) || 1;
+    const grid = document.getElementById('buildings-grid');
+
+    grid.innerHTML = Object.values(BUILDINGS).map(b => {
+      let costMult = 1.0;
+      if (b.type === 'econ' && p.origin === 'shoukei') costMult *= ORIGINS.shoukei.econCostMult;
+      if (b.type === 'def' && p.origin === 'koumu') costMult *= 0.80;
+      if (Game.getDoctrineLevel(p, 'earth') >= 2) costMult *= 0.85;
+      const unitCost = Math.floor(b.goldCost * costMult);
+      const totalCost = unitCost * qty;
+      const count = p.buildings[b.id];
+
+      return `
+        <div class="card">
+          <div class="card-title">
+            <span>${b.name}</span>
+            <span class="tag tag-gold">${count}</span>
+          </div>
+          <p style="font-size:0.83rem;color:var(--text-muted);min-height:42px;margin-bottom:12px;">${b.desc}</p>
+          <div class="stat-row" style="margin-bottom:12px;">
+            <span class="stat-label">Custo (${qty}x)</span>
+            <span class="stat-value" style="color:var(--gold)">${totalCost} Ouro • ${qty} ha</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-primary" style="flex:1;justify-content:center;" onclick="Game.buildStructure('${b.id}')">Construir +${qty}</button>
+            <button class="btn-sm" onclick="Game.demolishStructure('${b.id}')" title="Demolir 1 unidade">-1</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  renderMilitary(pow) {
+    const p = Game.state.player;
+    document.getElementById('army-stance').value = p.stance;
+    document.getElementById('army-cap-tag').textContent = `${Game.getTotalUnits(p)} / ${Game.getArmyCap(p)} Tropas`;
+
+    document.getElementById('army-summary-stats').innerHTML = `
+      <div><span class="stat-label" style="display:block;font-size:0.8rem">Ataque Total</span><strong style="font-size:1.15rem;color:var(--crimson-hover)">${pow.totalAtk.toLocaleString('pt-BR')}</strong></div>
+      <div><span class="stat-label" style="display:block;font-size:0.8rem">Defesa Total</span><strong style="font-size:1.15rem;color:var(--jade-bright)">${pow.totalDef.toLocaleString('pt-BR')}</strong></div>
+      <div><span class="stat-label" style="display:block;font-size:0.8rem">Bônus Muralha</span><strong style="font-size:1.15rem;color:var(--gold)">+${Math.round((pow.wallMult - 1) * 100)}%</strong></div>
+      <div><span class="stat-label" style="display:block;font-size:0.8rem">Moral das Tropas</span><strong style="font-size:1.15rem">${p.morale}%</strong></div>
+    `;
+
+    const coinMult = Game.getDoctrineLevel(p, 'earth') >= 2 ? 0.85 : 1.0;
+
+    document.getElementById('units-grid').innerHTML = Object.values(UNITS).map(u => {
+      const count = p.units[u.id];
+      const unitGold = Math.floor(u.goldCost * coinMult);
+      return `
+        <div class="card">
+          <div class="card-title">
+            <span>${u.name}</span>
+            <span class="tag tag-crimson">${count}</span>
+          </div>
+          <div style="font-size:0.75rem;color:var(--gold);margin-bottom:6px;">${u.role}</div>
+          <p style="font-size:0.82rem;color:var(--text-muted);min-height:48px;margin-bottom:10px;">${u.desc}</p>
+          <div class="stat-row"><span class="stat-label">Atq / Def</span><span class="stat-value">${u.atk} / ${u.def}</span></div>
+          <div class="stat-row"><span class="stat-label">Custo Unitário</span><span class="stat-value">${unitGold} Ouro, ${u.riceCost} Arroz</span></div>
+          <div class="stat-row" style="margin-bottom:12px;"><span class="stat-label">Manutenção</span><span class="stat-value">${u.goldUpkeep} Ouro, ${u.riceUpkeep} Arroz</span></div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="Game.recruitUnit('${u.id}', 1)">+1</button>
+            <button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="Game.recruitUnit('${u.id}', 5)">+5</button>
+            <button class="btn-gold btn-sm" style="flex:1;justify-content:center;" onclick="Game.recruitUnit('${u.id}', 20)">+20</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const heroesHtml = p.heroes.map(h => {
+      const reqXp = h.level * 100;
+      const xpPct = Math.min(100, Math.round((h.xp / reqXp) * 100));
+      const relicSelect = p.relicInventory.length > 0
+        ? `<div style="margin-top:10px;display:flex;gap:6px;">
+            <select id="relic-sel-${h.id}" style="flex:1;font-size:0.78rem;">
+              ${p.relicInventory.map((r, i) => `<option value="${i}">${r.name} (${r.desc})</option>`).join('')}
+            </select>
+            <button class="btn-gold btn-sm" onclick="Game.equipRelic('${h.id}', parseInt(document.getElementById('relic-sel-${h.id}').value,10))">Equipar</button>
+           </div>`
+        : '';
+
+      return `
+        <div class="card card-gold">
+          <div class="card-title">
+            <span>${h.name}</span>
+            <span class="tag tag-gold">Nível ${h.level}</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--jade-bright);margin-bottom:8px;">Especialidade: ${h.spec}</div>
+          <div class="stat-row"><span class="stat-label">Bônus Ataque</span><span class="stat-value">+${Math.round(h.atkBonus * (1 + (h.level - 1) * 0.12) * 100)}%</span></div>
+          <div class="stat-row"><span class="stat-label">Bônus Defesa</span><span class="stat-value">+${Math.round(h.defBonus * (1 + (h.level - 1) * 0.12) * 100)}%</span></div>
+          <div class="stat-row"><span class="stat-label">Relíquia</span><span class="stat-value" style="color:var(--gold)">${h.relic ? h.relic.name : 'Nenhuma'}</span></div>
+          <div style="margin-top:10px;">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-bottom:3px;">
+              <span>Experiência</span><span>${h.xp} / ${reqXp} XP</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${xpPct}%;background:var(--gold)"></div></div>
+          </div>
+          ${relicSelect}
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('heroes-grid').innerHTML = heroesHtml || '<p style="color:var(--text-muted)">Nenhum general recrutado.</p>';
+  },
+
+  renderDoctrines() {
+    const s = Game.state;
+    const p = s.player;
+    const ar = s.activeResearch;
+
+    document.getElementById('active-research-status').innerHTML = ar
+      ? `<span class="tag tag-gold">Pesquisando: ${ar.name} (${ar.turnsRemaining}t)</span>`
+      : `<span class="tag tag-jade">Pronto para Pesquisar</span>`;
+
+    if (ar) {
+      const done = ar.totalTurns - ar.turnsRemaining;
+      const pct = Math.min(100, Math.round((done / ar.totalTurns) * 100));
+      document.getElementById('research-progress-card').innerHTML = `
+        <div class="card-title">
+          <span>Pesquisa em Andamento: ${ar.name} (Nível ${ar.targetLevel})</span>
+          <span class="tag tag-gold">${ar.turnsRemaining} turno(s) restante(s)</span>
+        </div>
+        <div class="progress-bar-bg" style="margin-top:6px;">
+          <div class="progress-bar-fill" style="width:${pct}%;background:var(--gold)"></div>
+        </div>
+      `;
+    } else {
+      document.getElementById('research-progress-card').innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <div>
+            <strong style="color:var(--parchment)">Nenhuma pesquisa ativa no momento.</strong>
+            <div style="font-size:0.84rem;color:var(--text-muted)">Selecione o próximo nível disponível em uma das três trilhas abaixo. O avanço ocorre automaticamente a cada turno.</div>
+          </div>
+          <span class="tag tag-neutral">1 Pesquisa por vez</span>
+        </div>
+      `;
+    }
+
+    document.getElementById('doctrines-tracks-grid').innerHTML = Object.values(DOCTRINES).map(track => {
+      const currentLv = Game.getDoctrineLevel(p, track.id);
+      const nextNode = currentLv < 3 ? track.levels[currentLv] : null;
+      const isThisActive = ar && ar.trackId === track.id;
+
+      return `
+        <div class="card ${currentLv === 3 ? 'card-jade' : ''}">
+          <div class="card-title">
+            <span>${track.name}</span>
+            <span class="tag tag-gold">Nv. ${currentLv}/3</span>
+          </div>
+          <div style="font-size:0.78rem;color:var(--jade-bright);margin-bottom:12px;">${track.category}</div>
+          ${track.levels.map(node => {
+            const unlocked = currentLv >= node.level;
+            const activeNow = ar && ar.trackId === track.id && ar.targetLevel === node.level;
+            const cls = unlocked ? 'unlocked' : (activeNow ? 'researching' : '');
+            return `
+              <div class="doctrine-node ${cls}">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <strong style="font-size:0.88rem;color:var(--parchment)">Nv. ${node.level} — ${node.name}</strong>
+                  ${unlocked ? '<span class="tag tag-jade">Ativa</span>' : (activeNow ? '<span class="tag tag-gold">Em Curso</span>' : `<span class="tag tag-neutral">${node.turns}t</span>`)}
+                </div>
+                <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px;">${node.desc}</div>
+                <div style="font-size:0.78rem;color:var(--gold)">Custo: ${node.goldCost} Ouro • ${node.turns} Turnos de Pesquisa</div>
+              </div>
+            `;
+          }).join('')}
+          <div style="margin-top:12px;">
+            ${nextNode
+              ? `<button class="btn-primary" style="width:100%;justify-content:center;" ${ar ? 'disabled' : ''} onclick="Game.startResearch('${track.id}')">
+                  ${isThisActive ? 'Pesquisando...' : `Pesquisar Nv. ${nextNode.level} (${nextNode.goldCost} Ouro)`}
+                 </button>`
+              : `<button class="btn-jade" style="width:100%;justify-content:center;" disabled>Trilha Dominada</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  getRankedFiefs() {
+    const s = Game.state;
+    const p = s.player;
+    const pPow = Game.calcPower(p, true);
+
+    const list = [
+      {
+        id: 'player',
+        name: p.name,
+        daimyo: 'Você',
+        clanId: p.clanId,
+        origin: p.origin,
+        land: p.land,
+        powerScore: pPow.powerScore,
+        honor: p.honor,
+        relation: 100,
+        isPlayer: true
+      },
+      ...s.aiFiefs.map(ai => ({
+        ...ai,
+        powerScore: Game.calcPower(ai, false).powerScore,
+        isPlayer: false
+      }))
+    ];
+
+    const sortBy = document.getElementById('war-sort')?.value || 'power';
+    list.sort((a, b) => b[sortBy] - a[sortBy]);
+    return list;
+  },
+
+  renderWarRoom() {
+    const s = Game.state;
+    const p = s.player;
+    const pPow = Game.calcPower(p, true);
+    const hasInformantNet = Game.getDoctrineLevel(p, 'veil') >= 3;
+
+    const clanFilterSelect = document.getElementById('war-filter-clan');
+    const currentFilter = clanFilterSelect.value;
+
+    clanFilterSelect.innerHTML = `<option value="all">Todos os Clãs</option>` +
+      s.clans.map(c => `<option value="${c.id}" ${currentFilter === c.id ? 'selected' : ''}>${c.name}</option>`).join('');
+
+    let fiefs = this.getRankedFiefs();
+    if (currentFilter !== 'all') {
+      fiefs = fiefs.filter(f => f.clanId === currentFilter);
+    }
+
+    const tbody = document.getElementById('warroom-tbody');
+    tbody.innerHTML = fiefs.map((f, idx) => {
+      const clan = s.clans.find(c => c.id === f.clanId);
+      const clanBadge = clan ? `<span class="tag tag-neutral">[${clan.tag}] ${clan.name.split(' ')[0]}</span>` : '<span class="tag tag-neutral">Sem Clã</span>';
+      const isAlly = !f.isPlayer && p.clanId && p.clanId === f.clanId;
+      const isWar = !f.isPlayer && p.clanId && Game.isClanAtWar(p.clanId, f.clanId);
+
+      const canSeeIntel = !f.isPlayer && hasInformantNet && f.powerScore <= pPow.powerScore * 1.25;
+      const intelSub = canSeeIntel
+        ? `<div style="font-size:0.74rem;color:var(--jade-bright)">Informantes: ${Math.floor(f.gold)} Ouro • ${Math.floor(f.rice)} Arroz • ${Game.getTotalUnits(f)} tropas</div>`
+        : '';
+
+      let relBadge = '<span class="tag tag-neutral">Neutro</span>';
+      if (f.isPlayer) relBadge = '<span class="tag tag-gold">Seu Feudo</span>';
+      else if (isAlly) relBadge = '<span class="tag tag-jade">Aliado de Clã</span>';
+      else if (isWar || f.relation < -25) relBadge = '<span class="tag tag-crimson">Hostil</span>';
+
+      const actions = f.isPlayer
+        ? '<span style="font-size:0.8rem;color:var(--text-muted)">—</span>'
+        : `<div style="display:flex;gap:6px;">
+            <button class="btn-sm" onclick="UI.quickSpy('${f.id}')">Espionar</button>
+            <button class="btn-primary btn-sm" ${isAlly ? 'disabled' : ''} onclick="Game.attackFief('${f.id}')">Atacar</button>
+           </div>`;
+
+      return `
+        <tr class="${f.isPlayer ? 'player-row' : ''}">
+          <td><strong>#${idx + 1}</strong></td>
+          <td>
+            <strong>${f.name}</strong>
+            <div style="font-size:0.76rem;color:var(--text-muted)">Daimyo ${f.daimyo}</div>
+            ${intelSub}
+          </td>
+          <td>${clanBadge}</td>
+          <td>${ORIGINS[f.origin].short}</td>
+          <td>${f.land} ha</td>
+          <td><strong>${f.powerScore.toLocaleString('pt-BR')}</strong></td>
+          <td>${relBadge}</td>
+          <td>${actions}</td>
+        </tr>
+      `;
+    }).join('');
+  },
+
+  quickSpy(aiId) {
+    this.switchTab('ninja');
+    document.getElementById('spy-target-select').value = aiId;
+    this.updateSpyPreview();
+  },
+
+  renderNinja() {
+    const p = Game.state.player;
+    const cap = Game.getNinjaCap(p);
+    document.getElementById('ninja-count-tag').textContent = `${p.ninjas} / ${cap} Shinobi Disponíveis`;
+
+    document.getElementById('ninja-recruit-panel').innerHTML = `
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">
+        Agentes treinados na Guilda das Sombras executam missões de infiltração e protegem seu tesouro contra espiões rivais.
+      </p>
+      <div class="stat-row"><span class="stat-label">Custo por Shinobi</span><span class="stat-value">95 Ouro</span></div>
+      <div class="stat-row" style="margin-bottom:14px;"><span class="stat-label">Bônus de Origem</span><span class="stat-value">${p.origin === 'tokoyami' ? '+40% Eficácia (Tokoyami)' : 'Padrão'}</span></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-primary" onclick="Game.recruitNinja(1)">Treinar +1 Shinobi (95 Ouro)</button>
+        <button class="btn-gold" onclick="Game.recruitNinja(5)">Treinar +5 Shinobi (475 Ouro)</button>
+      </div>
+    `;
+
+    const sel = document.getElementById('spy-target-select');
+    const prevVal = sel.value;
+    sel.innerHTML = Game.state.aiFiefs.map(ai => `<option value="${ai.id}" ${prevVal === ai.id ? 'selected' : ''}>${ai.name} (Daimyo ${ai.daimyo})</option>`).join('');
+    this.updateSpyPreview();
+
+    const intels = Game.state.aiFiefs.filter(ai => ai.intel);
+    document.getElementById('intel-reports-list').innerHTML = intels.length > 0
+      ? intels.map(ai => `
+        <div class="card">
+          <div class="card-title">
+            <span>${ai.name}</span>
+            <span class="tag tag-neutral">Turno ${ai.intel.turn}</span>
+          </div>
+          <div class="stat-row"><span class="stat-label">Ouro / Arroz</span><span class="stat-value">${ai.intel.gold} / ${ai.intel.rice}</span></div>
+          <div class="stat-row"><span class="stat-label">Muralhas</span><span class="stat-value">Nível ${ai.intel.walls}</span></div>
+          <div class="stat-row"><span class="stat-label">Ashigaru / Yumi</span><span class="stat-value">${ai.intel.units.ashigaru} / ${ai.intel.units.yumi}</span></div>
+          <div class="stat-row"><span class="stat-label">Samurai / Cavalaria</span><span class="stat-value">${ai.intel.units.samurai} / ${ai.intel.units.cavalry}</span></div>
+        </div>
+      `).join('')
+      : '<p style="color:var(--text-muted);font-size:0.88rem;">Nenhum dossiê ativo. Execute missões de Reconhecimento para revelar dados dos inimigos.</p>';
+  },
+
+  updateSpyPreview() {
+    const targetId = document.getElementById('spy-target-select').value;
+    const mission = document.getElementById('spy-mission-select').value;
+    const agents = parseInt(document.getElementById('spy-agents-input').value, 10) || 1;
+    const target = Game.state.aiFiefs.find(f => f.id === targetId);
+    if (!target) return;
+
+    const { chance, cost } = Game.calcSpyChance(target, mission, agents);
+    document.getElementById('spy-preview-box').innerHTML = `
+      <div style="display:flex;justify-content:space-between;">
+        <span>Probabilidade Estimada: <strong style="color:${chance >= 60 ? 'var(--jade-bright)' : 'var(--gold)'}">${chance}%</strong></span>
+        <span>Custo da Operação: <strong style="color:var(--gold)">${cost} Ouro</strong></span>
+      </div>
+    `;
+  },
+
+  renderClan() {
+    const s = Game.state;
+    const p = s.player;
+    const container = document.getElementById('clan-main-content');
+
+    if (!p.clanId) {
+      container.innerHTML = `
+        <div class="grid-2">
+          <div class="card card-gold">
+            <div class="card-title"><span>Ingressar em um Clã Existente</span></div>
+            <p style="font-size:0.86rem;color:var(--text-muted);margin-bottom:14px;">
+              Junte-se a uma coalizão existente para obter bônus passivos, proteção mútua e acesso a reforços.
+            </p>
+            ${s.clans.map(c => {
+              const members = s.aiFiefs.filter(ai => ai.clanId === c.id).length;
+              return `
+                <div class="card" style="margin-bottom:10px;background:var(--bg-deep);">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div>
+                      <strong style="color:var(--gold)">[${c.tag}] ${c.name}</strong>
+                      <div style="font-size:0.82rem;color:var(--jade-bright)">${c.desc}</div>
+                      <div style="font-size:0.78rem;color:var(--text-muted)">Membros: ${members} Daimyos • Tesouro: ${c.treasury} Ouro</div>
+                    </div>
+                    <button class="btn-jade btn-sm" onclick="Game.joinClan('${c.id}')">Alistar-se</button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span>Fundar Novo Clã (600 Ouro)</span></div>
+            <p style="font-size:0.86rem;color:var(--text-muted);margin-bottom:14px;">
+              Erga seu próprio estandarte como Líder de Clã e defina a doutrina da nova casa.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <input type="text" id="new-clan-name" placeholder="Nome do Clã (ex: Clã Dragão Negro)">
+              <input type="text" id="new-clan-tag" placeholder="Sigla (até 4 letras, ex: DRG)" maxlength="4">
+              <select id="new-clan-bonus">
+                <option value="atk">Doutrina Marcial (+8% Ataque)</option>
+                <option value="def">Doutrina Fortificada (+8% Defesa)</option>
+                <option value="econ">Doutrina Mercante (+10% Economia)</option>
+              </select>
+              <button class="btn-primary" onclick="Game.createClan()">Fundar Clã (600 Ouro)</button>
+            </div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    const myClan = s.clans.find(c => c.id === p.clanId);
+    const allies = s.aiFiefs.filter(ai => ai.clanId === p.clanId);
+
+    container.innerHTML = `
+      <div class="grid-2" style="margin-bottom:20px;">
+        <div class="card card-gold">
+          <div class="card-title">
+            <span>[${myClan.tag}] ${myClan.name}</span>
+            <button class="btn-sm" style="color:var(--danger)" onclick="Game.leaveClan()">Abandonar Clã</button>
+          </div>
+          <div class="stat-row"><span class="stat-label">Bônus Passivo</span><span class="stat-value" style="color:var(--jade-bright)">${myClan.desc}</span></div>
+          <div class="stat-row"><span class="stat-label">Tesouro do Clã</span><span class="stat-value" style="color:var(--gold)">${myClan.treasury} Ouro</span></div>
+          <div class="stat-row" style="margin-bottom:14px;"><span class="stat-label">Feudos Aliados</span><span class="stat-value">${allies.length + 1} Daimyos</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <button class="btn-gold btn-sm" onclick="Game.donateToClan(250)">Doar 250 Ouro (+2 Honra)</button>
+            <button class="btn-jade btn-sm" onclick="Game.requestClanReinforcements()">Pedir Reforços (500 Tesouro)</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Relações entre Clãs</span></div>
+          ${s.clans.filter(c => c.id !== myClan.id).map(c => {
+            const atWar = Game.isClanAtWar(myClan.id, c.id);
+            return `
+              <div class="stat-row" style="align-items:center;">
+                <div>
+                  <strong>[${c.tag}] ${c.name}</strong>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">${c.desc}</div>
+                </div>
+                ${atWar
+                  ? '<span class="tag tag-crimson">Em Guerra</span>'
+                  : `<button class="btn-primary btn-sm" onclick="Game.declareClanWar('${c.id}')">Declarar Guerra</button>`
+                }
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Daimyos Aliados no Clã</span></div>
+        <div class="grid-3">
+          ${allies.map(a => `
+            <div class="card" style="background:var(--bg-deep);">
+              <strong>${a.name}</strong>
+              <div style="font-size:0.8rem;color:var(--text-muted)">Daimyo ${a.daimyo} • ${ORIGINS[a.origin].short}</div>
+              <div style="font-size:0.82rem;margin-top:6px;">Terras: ${a.land} ha • Poder: ${Game.calcPower(a, false).powerScore.toLocaleString('pt-BR')}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  },
+
+  renderLogs() {
+    const filter = document.getElementById('log-filter').value;
+    const logs = filter === 'all'
+      ? Game.state.logs
+      : Game.state.logs.filter(l => l.type === filter);
+
+    const container = document.getElementById('logs-container');
+    container.innerHTML = logs.length > 0
+      ? logs.map(l => `
+        <div class="log-entry ${l.type}">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <strong style="color:var(--parchment)">${l.title}</strong>
+            <span class="tag tag-neutral">Turno ${l.turn}</span>
+          </div>
+          <p style="font-size:0.88rem;color:var(--text-main)">${l.text}</p>
+        </div>
+      `).join('')
+      : '<p style="color:var(--text-muted)">Nenhum registro encontrado para este filtro.</p>';
+  },
+
+  openBattleReportModal(report) {
+    const unitNames = { ashigaru: 'Ashigaru', yumi: 'Arqueiros Yumi', samurai: 'Samurai', cavalry: 'Cavalaria Takeda' };
+    const formatLosses = (losses) => Object.entries(losses)
+      .map(([k, v]) => `${unitNames[k]}: -${v}`)
+      .join(' • ');
+
+    const html = `
+      <div class="modal-header">
+        <h3>${report.attackerWon ? 'Vitória no Campo de Batalha!' : 'Derrota no Cerco'} — ${report.targetName}</h3>
+        <button class="btn-sm" onclick="UI.closeModal()">Fechar</button>
+      </div>
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div class="card" style="background:var(--bg-deep)">
+          <span class="stat-label">Força Efetiva Atacante</span>
+          <div style="font-size:1.3rem;font-weight:bold;color:var(--crimson-hover)">${report.effectiveAtk.toLocaleString('pt-BR')}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Baixas: ${formatLosses(report.atkLosses)}</div>
+        </div>
+        <div class="card" style="background:var(--bg-deep)">
+          <span class="stat-label">Força Efetiva Defensora</span>
+          <div style="font-size:1.3rem;font-weight:bold;color:var(--jade-bright)">${report.effectiveDef.toLocaleString('pt-BR')}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Baixas: ${formatLosses(report.defLosses)}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        ${report.phases.map(ph => `
+          <div class="battle-phase">
+            <strong style="color:var(--gold);font-size:0.86rem">${ph.name}</strong>
+            <div style="font-size:0.84rem;color:var(--text-main)">${ph.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+      ${report.attackerWon ? `
+        <div class="card card-gold" style="margin-bottom:14px;">
+          <strong style="color:var(--gold)">Espólios de Guerra:</strong>
+          <div style="margin-top:6px;font-size:0.9rem;">
+            +${report.landWon} Hectares Conquistados • +${report.goldLoot} Ouro • +${report.riceLoot} Provisões
+            ${report.relicFound ? `<div style="color:var(--jade-bright);margin-top:4px;">Relíquia Encontrada: ${report.relicFound}!</div>` : ''}
+            ${report.honorPenalty ? `<div style="color:var(--danger);margin-top:4px;">Penalidade de Honra (-${report.honorPenalty}) por atacar feudo muito inferior.</div>` : ''}
+          </div>
+        </div>
+      ` : ''}
+      <div style="text-align:right;">
+        <button class="btn-primary" onclick="UI.closeModal()">Retornar ao Conselho</button>
+      </div>
+    `;
+    this.openModal(html);
+  },
+
+  openHeroRecruitModal() {
+    const p = Game.state.player;
+    const cost = 420 + p.heroes.length * 320;
+    const html = `
+      <div class="modal-header">
+        <h3>Convocar General para o Conselho</h3>
+        <button class="btn-sm" onclick="UI.closeModal()">Fechar</button>
+      </div>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">
+        Custo de contratação: <strong style="color:var(--gold)">${cost} Ouro</strong> (Requer ${p.heroes.length + 1} Dojo(s) construído(s)).
+      </p>
+      <div class="grid-3">
+        ${HERO_POOL.map((h, idx) => {
+          const hired = p.heroes.some(existing => existing.name === h.name);
+          return `
+            <div class="card">
+              <strong style="color:var(--gold)">${h.name}</strong>
+              <div style="font-size:0.78rem;color:var(--jade-bright);margin-bottom:6px;">${h.spec}</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:10px;">
+                Atq: +${Math.round(h.atkBonus * 100)}% • Def: +${Math.round(h.defBonus * 100)}%
+              </div>
+              <button class="btn-primary btn-sm" style="width:100%;justify-content:center;" ${hired ? 'disabled' : ''} onclick="Game.recruitHero(${idx})">
+                ${hired ? 'Em Serviço' : 'Convocar'}
+              </button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+    this.openModal(html);
+  },
+
+  openSaveModal() {
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(Game.state))));
+    const html = `
+      <div class="modal-header">
+        <h3>Exportar / Importar Pergaminho de Save</h3>
+        <button class="btn-sm" onclick="UI.closeModal()">Fechar</button>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:10px;">
+        Copie o código Base64 abaixo para salvar seu progresso manualmente ou cole um código anterior para restaurar.
+      </p>
+      <textarea id="save-code-box" rows="6" style="width:100%;font-family:monospace;font-size:0.78rem;margin-bottom:12px;">${encoded}</textarea>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="btn-gold" onclick="navigator.clipboard.writeText(document.getElementById('save-code-box').value);UI.toast('Código copiado!','success')">Copiar Código</button>
+        <button class="btn-primary" onclick="UI.importSaveFromBox()">Importar Código</button>
+      </div>
+    `;
+    this.openModal(html);
+  },
+
+  importSaveFromBox() {
+    const raw = document.getElementById('save-code-box').value.trim();
+    try {
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(raw))));
+      if (!decoded || !decoded.player || !decoded.aiFiefs) throw new Error('Formato inválido');
+      Game.state = Game.migrateState(decoded);
+      Game.save();
+      this.closeModal();
+      this.renderAll();
+      this.toast('Save importado e migrado com sucesso!', 'success');
+    } catch (e) {
+      this.toast('Código de save inválido ou corrompido.', 'danger');
+    }
+  },
+
+  selectedNewOrigin: 'shusen',
+
+  openNewEraModal(allowCancel = true) {
+    this.selectedNewOrigin = Game.state?.player?.origin || 'shusen';
+    const prestige = Game.state?.prestige || 0;
+    const html = `
+      <div class="modal-header">
+        <h3>Fundação de Feudo — Nova Era</h3>
+        ${allowCancel ? '<button class="btn-sm" onclick="UI.closeModal()">Cancelar</button>' : ''}
+      </div>
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div>
+          <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:4px;">Nome do seu Feudo:</label>
+          <input type="text" id="init-fief-name" value="Feudo Kurogane" style="width:100%">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.82rem;color:var(--text-muted);margin-bottom:4px;">Duração da Era:</label>
+          <select id="init-era-turns" style="width:100%">
+            <option value="60">Era Rápida (60 Turnos)</option>
+            <option value="120" selected>Era Padrão (120 Turnos)</option>
+            <option value="240">Era Longa (240 Turnos)</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.85rem;color:var(--parchment);font-weight:bold;">Escolha sua Origem Assimétrica:</span>
+        <span class="tag tag-gold">Prestígio Atual: ${prestige} pts</span>
+      </div>
+      <div class="grid-2" style="margin-bottom:16px;" id="origin-selector-list">
+        ${Object.values(ORIGINS).map(o => `
+          <div class="origin-card ${o.id === this.selectedNewOrigin ? 'selected' : ''}" id="orig-card-${o.id}" onclick="UI.selectOriginCard('${o.id}')">
+            <strong style="color:var(--gold)">${o.name}</strong>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 6px;">${o.desc}</p>
+            <ul style="padding-left:16px;font-size:0.78rem;color:var(--jade-bright);">
+              ${o.bonuses.map(b => `<li>${b}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+      <div style="text-align:right;">
+        <button class="btn-primary" onclick="UI.confirmNewEra()">Erguer Estandarte e Iniciar Era</button>
+      </div>
+    `;
+    this.openModal(html);
+  },
+
+  selectOriginCard(id) {
+    this.selectedNewOrigin = id;
+    document.querySelectorAll('.origin-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('orig-card-' + id).classList.add('selected');
+  },
+
+  confirmNewEra() {
+    const name = document.getElementById('init-fief-name').value.trim() || 'Feudo Kurogane';
+    const turns = parseInt(document.getElementById('init-era-turns').value, 10) || 120;
+    Game.startNewEra(name, this.selectedNewOrigin, turns);
+  },
+
+  openHallOfFameModal(allScores, pScore, rank, prestigeEarned) {
+    const s = Game.state;
+    const scores = allScores || [
+      { name: s.player.name, isPlayer: true, origin: s.player.origin, score: Game.calcFinalScore(s.player, true).total },
+      ...s.aiFiefs.map(ai => ({ name: ai.name, isPlayer: false, origin: ai.origin, score: Game.calcFinalScore(ai, false).total }))
+    ].sort((a, b) => b.score - a.score);
+
+    const breakdown = pScore || Game.calcFinalScore(s.player, true);
+    const finalRank = rank || (scores.findIndex(x => x.isPlayer) + 1);
+
+    const html = `
+      <div class="modal-header">
+        <h3>Fim da Era ${s.eraNumber} — Hall da Fama do Shogunato</h3>
+      </div>
+      <div class="card card-gold" style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div>
+            <strong style="font-size:1.15rem;color:var(--gold)">Classificação Final: #${finalRank} de 16</strong>
+            <div style="font-size:0.84rem;color:var(--text-muted)">Feudo ${s.player.name} (${ORIGINS[s.player.origin].name})</div>
+          </div>
+          <span class="tag tag-jade">+${prestigeEarned || 0} Prestígio Permanente</span>
+        </div>
+        <div class="grid-4">
+          <div><span class="stat-label" style="display:block;font-size:0.78rem">Poder Militar</span><strong>${breakdown.military.toLocaleString('pt-BR')}</strong></div>
+          <div><span class="stat-label" style="display:block;font-size:0.78rem">Economia</span><strong>${breakdown.economy.toLocaleString('pt-BR')}</strong></div>
+          <div><span class="stat-label" style="display:block;font-size:0.78rem">Território</span><strong>${breakdown.territory.toLocaleString('pt-BR')}</strong></div>
+          <div><span class="stat-label" style="display:block;font-size:0.78rem">Pontuação Total</span><strong style="color:var(--gold)">${breakdown.total.toLocaleString('pt-BR')}</strong></div>
+        </div>
+      </div>
+
+      <div style="max-height:240px;overflow-y:auto;margin-bottom:16px;">
+        <table>
+          <thead><tr><th>Pos.</th><th>Feudo</th><th>Origem</th><th>Pontuação Final</th></tr></thead>
+          <tbody>
+            ${scores.slice(0, 10).map((item, idx) => `
+              <tr class="${item.isPlayer ? 'player-row' : ''}">
+                <td>#${idx + 1}</td>
+                <td>${item.name}</td>
+                <td>${ORIGINS[item.origin].short}</td>
+                <td><strong>${item.score.toLocaleString('pt-BR')}</strong></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:right;">
+        <button class="btn-primary" onclick="UI.openNewEraModal(false)">Iniciar Nova Era com Legado</button>
+      </div>
+    `;
+    this.openModal(html);
+  },
+
+  openModal(html) {
+    document.getElementById('modal-content').innerHTML = html;
+    document.getElementById('main-modal').classList.add('open');
+  },
+
+  closeModal() {
+    document.getElementById('main-modal').classList.remove('open');
+  },
+
+  toast(msg, type = 'info') {
+    const container = document.getElementById('toast-container');
+    const el = document.createElement('div');
+    el.className = 'toast ' + type;
+    el.textContent = msg;
+    container.appendChild(el);
+    setTimeout(() => {
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 300);
+    }, 3400);
+  }
+};
+
+window.addEventListener('DOMContentLoaded', () => Game.init());
+</script>
+</body>
+</html>
